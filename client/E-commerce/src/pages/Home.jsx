@@ -1,33 +1,30 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import CardProduct from "../components/CardProduct";
-// import products from "../products";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { listProductsAction } from "../redux/actions/productAction";
 const Home = () => {
-  const [products, setProducts] = useState([]);
-
+  const dispatch = useDispatch();
+  const productList = useSelector((state) => state.productList);
+  const { loading, products, error } = productList;
   useEffect(() => {
-    const fetchProducts = async () => {
-      const { data } = await axios.get("/api/products");
-      setProducts(data);
-    };
-    fetchProducts();
-  }, []);
-
-  console.log({ products });
+    listProductsAction(dispatch);
+  }, [listProductsAction]);
   return (
-    <div>
+    <div className="">
       <h1 className="pl-4 text-3xl uppercase font-weight">Latest Product</h1>
-
-      <div className="grid grid-cols-1 gap-4 my-4 px-4 xl:grid-cols-4 md:grid-cols-3">
-        {/* <CardProduct />
-        <CardProduct />
-        <CardProduct />
-        <CardProduct />
-        <CardProduct /> */}
-        {products.map((product) => (
-          <CardProduct product={product} key={product._id} />
-        ))}
-      </div>
+      {loading ? (
+        <div className="flex items-center  justify-center h-screen">
+          <span className="loading loading-spinner loading-lg"></span>
+        </div>
+      ) : error ? (
+        <h3>{error}</h3>
+      ) : (
+        <div className="grid grid-cols-1 gap-4 my-4 px-4 xl:grid-cols-4 md:grid-cols-3">
+          {products.map((product) => (
+            <CardProduct product={product} key={product._id} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
