@@ -4,11 +4,12 @@ import Rating from "../components/Rating";
 import { useEffect } from "react";
 import { detailProductAction } from "../redux/actions/productAction";
 import { useDispatch, useSelector } from "react-redux";
+import { productDetailSelector } from "../redux/selector/productSelector";
 
 const Product = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const productDetail = useSelector((state) => state.productDetail);
+  const productDetail = useSelector(productDetailSelector);
   const { loading, product, error } = productDetail;
   useEffect(() => {
     detailProductAction(dispatch, id);

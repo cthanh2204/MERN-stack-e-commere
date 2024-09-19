@@ -2,9 +2,10 @@ import { useEffect } from "react";
 import CardProduct from "../components/CardProduct";
 import { useDispatch, useSelector } from "react-redux";
 import { listProductsAction } from "../redux/actions/productAction";
+import { productListSelector } from "../redux/selector/productSelector";
 const Home = () => {
   const dispatch = useDispatch();
-  const productList = useSelector((state) => state.productList);
+  const productList = useSelector(productListSelector);
   const { loading, products, error } = productList;
   useEffect(() => {
     listProductsAction(dispatch);
