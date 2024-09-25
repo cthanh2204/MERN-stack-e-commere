@@ -2,14 +2,14 @@ import { useEffect } from "react";
 import CardProduct from "../components/CardProduct";
 import { useDispatch, useSelector } from "react-redux";
 import { listProductsAction } from "../redux/actions/productAction";
-import { productListSelector } from "../redux/selector/productSelector";
+import { productListSelector } from "../redux/selector/selectors";
 const Home = () => {
   const dispatch = useDispatch();
   const productList = useSelector(productListSelector);
   const { loading, products, error } = productList;
   useEffect(() => {
-    listProductsAction(dispatch);
-  }, [listProductsAction]);
+    dispatch(listProductsAction());
+  }, [dispatch]);
   return (
     <div className="">
       <h1 className="pl-4 text-3xl uppercase font-weight">Latest Product</h1>

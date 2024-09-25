@@ -5,16 +5,18 @@ import Home from "./pages/Home";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SignIn from "./pages/SignIn";
 import Product from "./pages/Product";
+import Cart from "./pages/Cart";
 function App() {
   return (
     <Router>
-      <div className="flex flex-col h-screen justify-between">
+      <div className="relative m-0 min-h-screen	pb-16">
         <Header />
         <main className="container mx-auto">
           <Routes>
             <Route path="/" element={<Home />} exact />
             <Route path="/product/:id" element={<Product />} />
             <Route path="/login" element={<SignIn />} />
+            <Route path="/cart/:id?" element={<Cart />} />
           </Routes>
         </main>
         <Footer />

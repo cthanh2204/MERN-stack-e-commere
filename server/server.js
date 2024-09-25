@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import productRoute from "./routes/productRoute.js";
 import { errorHandler, notFound } from "./middlewares/errorhandler.js";
+
 dotenv.config();
 connectDB();
 const app = express();
