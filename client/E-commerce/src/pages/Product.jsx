@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { productDetailSelector } from "../redux/selector/selectors";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { addToCart } from "../redux/actions/cartAction";
 
 const Product = () => {
   const { id } = useParams();
@@ -34,7 +35,8 @@ const Product = () => {
         transition: Bounce,
       });
     }
-    navigate(`/cart/${id}?qty=${qty}`);
+    dispatch(addToCart(id, qty));
+    navigate(`/cart`);
   };
 
   console.log({ qty });

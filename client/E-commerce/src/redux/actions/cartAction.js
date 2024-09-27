@@ -1,5 +1,9 @@
 import axios from "axios";
-import { CART_ADD_ITEM } from "../constants/cartConstant";
+import {
+  CART_ADD_ITEM,
+  CART_CLEAR_ALL,
+  CART_REMOVE_ITEM,
+} from "../constants/cartConstant";
 
 export const addToCart = (id, qty) => async (dispatch, getState) => {
   try {
@@ -24,5 +28,32 @@ export const addToCart = (id, qty) => async (dispatch, getState) => {
     );
   } catch (error) {
     console.error("Error adding to cart:", error);
+  }
+};
+
+export const removeFromCart = (id) => (dispatch, getState) => {
+  try {
+    dispatch({
+      type: CART_REMOVE_ITEM,
+      payload: id,
+    });
+
+    localStorage.setItem(
+      "cartItems",
+      JSON.stringify(getState().cart.cartItems)
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const cartClearAll = () => (dispatch) => {
+  try {
+    dispatch({
+      type: CART_CLEAR_ALL,
+    });
+    localStorage.removeItem("cartItems");
+  } catch (error) {
+    console.log(error);
   }
 };

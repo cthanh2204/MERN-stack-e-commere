@@ -1,29 +1,43 @@
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useSearchParams } from "react-router-dom";
-import { addToCart } from "../redux/actions/cartAction";
+import { useNavigate } from "react-router-dom";
+import {
+  addToCart,
+  cartClearAll,
+  removeFromCart,
+} from "../redux/actions/cartAction";
 import { cartSelector } from "../redux/selector/selectors";
 
 const Cart = () => {
-  const { id } = useParams();
-  const [searchParams] = useSearchParams();
-  const qty = searchParams.get("qty");
   const dispatch = useDispatch();
   const cart = useSelector(cartSelector);
   const { cartItems } = cart;
-  useEffect(() => {
-    console.log("useEffect triggered with ID:", id, "and qty:", qty); // Debug log
+  const navigate = useNavigate();
 
-    if (id) {
-      // Dispatch the addToCart action
-      dispatch(addToCart(id, qty));
-    }
-  }, [dispatch, id, qty]);
+  const checkOutHandle = () => {
+    navigate("/login?redirect=shipping");
+  };
 
+  const removeFromCartHandle = (id) => {
+    dispatch(removeFromCart(id));
+  };
+
+  const cartClearAllHandler = () => {
+    dispatch(cartClearAll());
+  };
   return (
     <>
       <div>
-        <h1 className="pl-4 text-3xl uppercase font-weight">Shopping Cart</h1>
+        <div className="w-2/3 flex justify-between">
+          <h1 className="pl-4 text-3xl uppercase font-weight">Shopping Cart</h1>
+          <div className="">
+            <button
+              className="btn btn-ghost uppercase"
+              onClick={() => cartClearAllHandler()}>
+              Clear all Items
+            </button>
+          </div>
+        </div>
         {cartItems.length === 0 ? (
           <div>Your cart is empty</div>
         ) : (
@@ -59,7 +73,9 @@ const Cart = () => {
                     <p>${(item.price * Number(item.qty)).toFixed(2)}</p>
                   </div>
                   <div>
-                    <i className="fa-solid fa-trash hover:text-red-600 cursor-pointer"></i>{" "}
+                    <i
+                      className="fa-solid fa-trash hover:text-red-600 cursor-pointer text-xl"
+                      onClick={() => removeFromCartHandle(item.product)}></i>
                   </div>
                 </div>
               ))}
@@ -77,11 +93,15 @@ const Cart = () => {
                 <div className="">
                   <p>
                     Total: $
-                    {cartItems.reduce((acc, item) => {
-                      return acc + item.price * Number(item.qty);
-                    }, 0)}
+                    {cartItems
+                      .reduce((acc, item) => {
+                        return acc + item.price * Number(item.qty);
+                      }, 0)
+                      .toFixed(2)}
                   </p>
-                  <button className="btn w-full uppercase">
+                  <button
+                    className="btn w-full uppercase"
+                    onClick={checkOutHandle}>
                     Proceed to Checkout
                   </button>
                 </div>
