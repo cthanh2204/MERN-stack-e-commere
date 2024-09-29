@@ -8,6 +8,7 @@ import { productDetailSelector } from "../redux/selector/selectors";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { addToCart } from "../redux/actions/cartAction";
+import Loading from "../components/Loading";
 
 const Product = () => {
   const { id } = useParams();
@@ -39,7 +40,6 @@ const Product = () => {
     navigate(`/cart`);
   };
 
-  console.log({ qty });
   return (
     <>
       <div>
@@ -48,9 +48,7 @@ const Product = () => {
         </Link>
       </div>
       {loading ? (
-        <div className="flex items-center  justify-center h-screen">
-          <span className="loading loading-spinner loading-lg"></span>
-        </div>
+        <Loading />
       ) : error ? (
         <h2>{error.message}</h2>
       ) : (

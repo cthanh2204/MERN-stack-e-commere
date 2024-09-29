@@ -28,7 +28,7 @@ const Cart = () => {
   return (
     <>
       <div>
-        <div className="w-2/3 flex justify-between">
+        <div className="lg:w-2/3 flex justify-between">
           <h1 className="pl-4 text-3xl uppercase font-weight">Shopping Cart</h1>
           <div className="">
             <button

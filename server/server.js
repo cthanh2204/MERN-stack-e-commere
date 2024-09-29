@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import productRoute from "./routes/productRoute.js";
+import userRouter from "./routes/userRoute.js";
 import { errorHandler, notFound } from "./middlewares/errorhandler.js";
 
 dotenv.config();
@@ -13,6 +14,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/products", productRoute);
+app.use("/api/auth", userRouter);
 app.use(notFound);
 app.use(errorHandler);
 const PORT = process.env.PORT || 5000;

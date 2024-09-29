@@ -3,6 +3,7 @@ import {
   getAllProduct,
   getProductOne,
 } from "../controllers/productController.js";
+import authToken from "../middlewares/authMiddleware.js";
 const router = express.Router();
 
 router.get("/", getAllProduct);

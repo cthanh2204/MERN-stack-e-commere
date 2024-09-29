@@ -1,10 +1,17 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { cartSelector } from "../redux/selector/selectors";
+import { cartSelector, userLoginSelector } from "../redux/selector/selectors";
+import { userLogOutAction } from "../redux/actions/userAction";
 
 const Header = () => {
   const data = useSelector(cartSelector);
+  const userInfoLogin = useSelector(userLoginSelector);
+  const { userInfo } = userInfoLogin;
   const { cartItems } = data;
+  const dispatch = useDispatch();
+  const logOutHandle = () => {
+    dispatch(userLogOutAction());
+  };
   return (
     <>
       <div className="navbar bg-base-100 container mx-auto ">
@@ -46,20 +53,48 @@ const Header = () => {
                     d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                   />
                 </svg>
-                <span className="badge badge-sm indicator-item">
-                  {cartItems.reduce((acc, item) => acc + Number(item.qty), 0)}
-                </span>
+                {cartItems.length === 0 ? null : (
+                  <span className="badge badge-sm indicator-item">
+                    {cartItems.reduce((acc, item) => acc + Number(item.qty), 0)}
+                  </span>
+                )}
               </div>
             </div>
           </Link>
 
           {/* Profile modal */}
           <div className="dropdown dropdown-end">
-            <Link to="/login">
-              <div role="button" className="btn btn-ghost">
-                <div>Sign in</div>
-              </div>
-            </Link>
+            {userInfo ? (
+              <details className="dropdown">
+                <summary className="btn btn-ghost m-1 uppercase">
+                  {userInfo.name}
+                </summary>
+                <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                  <li className="mb-2">
+                    Dark mode
+                    <input
+                      type="checkbox"
+                      value="dark"
+                      className="toggle theme-controller"
+                    />
+                  </li>
+                  <li className="mb-2">
+                    <p>Profile user</p>
+                  </li>
+                  <li className="mb-2">
+                    <button className="btn" onClick={logOutHandle}>
+                      Log out
+                    </button>
+                  </li>
+                </ul>
+              </details>
+            ) : (
+              <Link to="/login">
+                <div role="button" className="btn btn-ghost">
+                  <div>Sign in</div>
+                </div>
+              </Link>
+            )}
           </div>
         </div>
       </div>

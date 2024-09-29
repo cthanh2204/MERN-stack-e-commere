@@ -3,6 +3,7 @@ import CardProduct from "../components/CardProduct";
 import { useDispatch, useSelector } from "react-redux";
 import { listProductsAction } from "../redux/actions/productAction";
 import { productListSelector } from "../redux/selector/selectors";
+import Loading from "../components/Loading";
 const Home = () => {
   const dispatch = useDispatch();
   const productList = useSelector(productListSelector);
@@ -14,9 +15,7 @@ const Home = () => {
     <div className="">
       <h1 className="pl-4 text-3xl uppercase font-weight">Latest Product</h1>
       {loading ? (
-        <div className="flex items-center  justify-center h-screen">
-          <span className="loading loading-spinner loading-lg"></span>
-        </div>
+        <Loading />
       ) : error ? (
         <h3>{error}</h3>
       ) : (
