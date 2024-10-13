@@ -1,14 +1,21 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { cartSelector, userLoginSelector } from "../redux/selector/selectors";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  cartSelector,
+  userDetailSelector,
+  userLoginSelector,
+} from "../redux/selector/selectors";
 import { userLogOutAction } from "../redux/actions/userAction";
 
 const Header = () => {
   const data = useSelector(cartSelector);
   const userInfoLogin = useSelector(userLoginSelector);
+  const userDetail = useSelector(userDetailSelector);
+  const { user } = userDetail;
   const { userInfo } = userInfoLogin;
   const { cartItems } = data;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const logOutHandle = () => {
     dispatch(userLogOutAction());
   };
@@ -67,7 +74,7 @@ const Header = () => {
             {userInfo ? (
               <details className="dropdown">
                 <summary className="btn btn-ghost m-1 uppercase">
-                  {userInfo.name}
+                  {user?.name || userInfo.name}
                 </summary>
                 <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
                   <li className="mb-2">
@@ -79,7 +86,11 @@ const Header = () => {
                     />
                   </li>
                   <li className="mb-2">
-                    <p>Profile user</p>
+                    <button
+                      className="btn"
+                      onClick={() => navigate("/profile")}>
+                      Profile
+                    </button>
                   </li>
                   <li className="mb-2">
                     <button className="btn" onClick={logOutHandle}>

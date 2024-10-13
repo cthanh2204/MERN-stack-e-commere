@@ -5,7 +5,7 @@ import { Bounce, toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { userLoginSelector } from "../redux/selector/selectors";
 import Loading from "../components/Loading";
-import { userLoginAction } from "../redux/actions/userAction";
+import { userDetailAction, userLoginAction } from "../redux/actions/userAction";
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,33 +22,38 @@ const SignIn = () => {
   }, [navigate, userInfo, dispatch]);
   const loginHandle = (e) => {
     e.preventDefault();
-    if (!email || !password) {
-      return toast.warning("Please enter your email or password", {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-        transition: Bounce,
-      });
+    try {
+      if (!email || !password) {
+        return toast.warning("Please enter your email or password", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
+      }
+
+      dispatch(userLoginAction(email, password));
+      dispatch(userDetailAction());
+    } catch (error) {
+      if (error) {
+        return toast.error(error.response.data.message, {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
+      }
     }
-    if (error) {
-      return toast.error(error, {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-        transition: Bounce,
-      });
-    }
-    dispatch(userLoginAction(email, password));
   };
   return (
     <div className="flex justify-center items-center flex-col mt-24 lg:w-96 mx-auto">
@@ -60,6 +65,23 @@ const SignIn = () => {
           <p className="text-gray-500 text-sm my-2">
             Sign in to access to your account
           </p>
+          {error && (
+            <div role="alert" className="alert alert-error">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 shrink-0 stroke-current"
+                fill="none"
+                viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <span>{error}</span>
+            </div>
+          )}
           <form
             onSubmit={loginHandle}
             className="flex justify-center items-center flex-col w-full">

@@ -1,69 +1,49 @@
-import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import {
+  userDetailSelector,
+  userLoginSelector,
+  userUpdateProfileSelector,
+} from "../redux/selector/selectors";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { userRegisterSelector } from "../redux/selector/selectors";
 import {
   userDetailAction,
-  userRegisterAction,
+  userUpdateProfileAction,
 } from "../redux/actions/userAction";
-import Loading from "../components/Loading";
-const SignUp = () => {
+const Profile = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword2, setShowPassword2] = useState("");
-  const userRegister = useSelector(userRegisterSelector);
-  const { loading, error } = userRegister;
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const userInfo = localStorage.getItem("userInfo")
-    ? JSON.parse(localStorage.getItem("userInfo"))
-    : null;
+  const userLogin = useSelector(userLoginSelector);
+  const { userInfo } = userLogin;
+  const userDetail = useSelector(userDetailSelector);
+  const { user } = userDetail;
+  const userUpdateProfile = useSelector(userUpdateProfileSelector);
+  const { error, success } = userUpdateProfile;
   useEffect(() => {
-    if (userInfo) {
-      navigate("/");
+    if (!userInfo) {
+      return navigate("/login");
     }
-  }, [navigate, userInfo, dispatch]);
-  const registerHandle = (e) => {
+
+    if (!user || !user.name) {
+      dispatch(userDetailAction());
+    } else {
+      setName(user.name);
+      setEmail(user.email);
+    }
+  }, [dispatch, navigate, userInfo, user]);
+  const submitHandle = (e) => {
     e.preventDefault();
 
-    try {
-      if (!email || !name || !password) {
-        return toast.warning("Please enter all the field", {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-          transition: Bounce,
-        });
-      }
-
-      if (password !== confirmPassword) {
-        return toast.error("Password do not match", {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-          transition: Bounce,
-        });
-      }
-
-      dispatch(userRegisterAction(name, email, password));
-      dispatch(userDetailAction());
-    } catch (error) {
-      return toast.error(error.response.data.message, {
+    if (password !== confirmPassword) {
+      return toast.error("Password do not match", {
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: false,
@@ -74,20 +54,18 @@ const SignUp = () => {
         theme: "colored",
         transition: Bounce,
       });
+    } else {
+      dispatch(
+        userUpdateProfileAction({ id: user._id, name, email, password })
+      );
+      dispatch(userDetailAction());
     }
   };
   return (
-    <div className="flex justify-center items-center flex-col mt-24 lg:w-96 mx-auto">
-      {loading ? (
-        <Loading />
-      ) : (
-        <>
-          <h1 className="text-3xl uppercase font-semibold	">
-            Create an account
-          </h1>
-          <p className="text-gray-500 text-sm my-2">
-            Sign in to access to your account
-          </p>
+    <>
+      <div className="grid lg:grid-cols-2 gap-2">
+        <div>
+          <h1 className="text-3xl uppercase font-semibold	">User profile</h1>
           {error && (
             <div role="alert" className="alert alert-error">
               <svg
@@ -102,10 +80,28 @@ const SignUp = () => {
                   d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              <span>{error}</span>
+              <span>Error! Task failed successfully.</span>
             </div>
           )}
-          <form className="w-full" onSubmit={registerHandle}>
+
+          {success && (
+            <div role="alert" className="alert alert-success">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 shrink-0 stroke-current"
+                fill="none"
+                viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <span>Update profile successfully</span>
+            </div>
+          )}
+          <form className="w-full" onSubmit={submitHandle}>
             <label className="input input-bordered flex items-center gap-2 my-4 w-full">
               <i className="fa-solid fa-user"></i>
               <input
@@ -154,19 +150,16 @@ const SignUp = () => {
                 onClick={() => setShowPassword2(!showPassword2)}></i>
             </label>
 
-            <button className="btn w-full">Register</button>
-            <p className="my-2">
-              If you already have an account?
-              <Link to={"/login"} className="ml-1 font-bold text-gray-600">
-                Sign in here
-              </Link>
-            </p>
+            <button className="btn w-full">Update</button>
           </form>
-        </>
-      )}
+        </div>
+        <div>
+          <h1 className="text-3xl uppercase font-semibold	">My Order</h1>
+        </div>
+      </div>
       <ToastContainer />
-    </div>
+    </>
   );
 };
 
-export default SignUp;
+export default Profile;

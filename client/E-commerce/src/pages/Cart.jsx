@@ -6,16 +6,22 @@ import {
   cartClearAll,
   removeFromCart,
 } from "../redux/actions/cartAction";
-import { cartSelector } from "../redux/selector/selectors";
+import { cartSelector, userLoginSelector } from "../redux/selector/selectors";
 
 const Cart = () => {
   const dispatch = useDispatch();
   const cart = useSelector(cartSelector);
+  const userLogin = useSelector(userLoginSelector);
+  const { userInfo } = userLogin;
   const { cartItems } = cart;
   const navigate = useNavigate();
 
   const checkOutHandle = () => {
-    navigate("/login?redirect=shipping");
+    if (!userInfo) {
+      navigate("/login");
+    } else {
+      navigate("/shipping");
+    }
   };
 
   const removeFromCartHandle = (id) => {
@@ -30,16 +36,31 @@ const Cart = () => {
       <div>
         <div className="lg:w-2/3 flex justify-between">
           <h1 className="pl-4 text-3xl uppercase font-weight">Shopping Cart</h1>
-          <div className="">
-            <button
-              className="btn btn-ghost uppercase"
-              onClick={() => cartClearAllHandler()}>
-              Clear all Items
-            </button>
-          </div>
+          {cartItems.length !== 0 && (
+            <div className="">
+              <button
+                className="btn btn-ghost uppercase"
+                onClick={() => cartClearAllHandler()}>
+                Clear all Items
+              </button>
+            </div>
+          )}
         </div>
         {cartItems.length === 0 ? (
-          <div>Your cart is empty</div>
+          <div role="alert" className="alert">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              className="stroke-info h-6 w-6 shrink-0">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <span>Your cart is empty.</span>
+          </div>
         ) : (
           <div className="grid md:grid-cols-3">
             <div className="md:col-span-2">
