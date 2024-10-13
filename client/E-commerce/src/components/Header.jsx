@@ -8,12 +8,12 @@ import {
 import { userLogOutAction } from "../redux/actions/userAction";
 
 const Header = () => {
-  const data = useSelector(cartSelector);
+  const cart = useSelector(cartSelector);
   const userInfoLogin = useSelector(userLoginSelector);
   const userDetail = useSelector(userDetailSelector);
   const { user } = userDetail;
   const { userInfo } = userInfoLogin;
-  const { cartItems } = data;
+  const { cartItems } = cart;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const logOutHandle = () => {

@@ -11,6 +11,7 @@ import ErrorPage from "./pages/404";
 import Profile from "./pages/Profile";
 import Shipping from "./pages/Shipping";
 import Payment from "./pages/Payment";
+import PlaceOrder from "./pages/PlaceOrder";
 function App() {
   return (
     <Router>
@@ -26,6 +27,7 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/shipping" element={<Shipping />} />
             <Route path="/payment" element={<Payment />} />
+            <Route path="/place-order" element={<PlaceOrder />} />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </main>
