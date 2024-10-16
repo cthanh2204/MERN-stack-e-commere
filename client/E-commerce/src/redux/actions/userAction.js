@@ -14,6 +14,7 @@ import {
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_SUCCESS,
 } from "../constants/userConstant";
+import { CART_CLEAR_ALL } from "../constants/cartConstant";
 
 export const userLoginAction = (email, password) => async (dispatch) => {
   dispatch({
@@ -129,6 +130,7 @@ export const userUpdateProfileAction = (user) => async (dispatch, getState) => {
 };
 
 export const userLogOutAction = () => (dispatch) => {
-  localStorage.removeItem("userInfo");
+  localStorage.clear();
   dispatch({ type: USER_LOGOUT });
+  dispatch({ type: CART_CLEAR_ALL });
 };

@@ -5,3 +5,6 @@ export const userLoginSelector = (state) => state.userLogin;
 export const userRegisterSelector = (state) => state.userRegister;
 export const userDetailSelector = (state) => state.userDetail;
 export const userUpdateProfileSelector = (state) => state.userUpdateProfile;
+export const orderCreateSelector = (state) => state.orderCreate;
+export const orderDetailSelector = (state) => state.orderDetail;
+export const orderPaySelector = (state) => state.orderPay;

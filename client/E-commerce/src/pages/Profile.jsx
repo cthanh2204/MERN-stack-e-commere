@@ -63,7 +63,7 @@ const Profile = () => {
   };
   return (
     <>
-      <div className="grid lg:grid-cols-2 gap-2">
+      <div className="grid lg:grid-cols-3 gap-2">
         <div>
           <h1 className="text-3xl uppercase font-semibold	">User profile</h1>
           {error && (
@@ -153,7 +153,7 @@ const Profile = () => {
             <button className="btn w-full">Update</button>
           </form>
         </div>
-        <div>
+        <div className="grid lg:col-span-2">
           <h1 className="text-3xl uppercase font-semibold	">My Order</h1>
         </div>
       </div>

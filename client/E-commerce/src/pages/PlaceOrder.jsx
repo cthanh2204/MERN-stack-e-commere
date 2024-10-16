@@ -1,11 +1,23 @@
-import { useSelector } from "react-redux";
-import { cartSelector } from "../redux/selector/selectors";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  cartSelector,
+  orderCreateSelector,
+  userLoginSelector,
+} from "../redux/selector/selectors";
 import CheckoutStep from "../components/CheckoutStep";
+import { orderCreateAction } from "../redux/actions/orderAction";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const PlaceOrder = () => {
   const cart = useSelector(cartSelector);
+  const userLogin = useSelector(userLoginSelector);
+  const { userInfo } = userLogin;
   const { shippingAddress, paymentMethod, cartItems } = cart;
-
+  const orderCreate = useSelector(orderCreateSelector);
+  const { order, success, error } = orderCreate;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   // calculate price
   const addDecimals = (num) => {
     return (Math.round(num * 100) / 100).toFixed(2);
@@ -24,6 +36,30 @@ const PlaceOrder = () => {
   const totalPrice = addDecimals(
     Number(itemsPrice) + Number(shippingPrice) + Number(taxPrice)
   );
+
+  useEffect(() => {
+    if (!userInfo) {
+      return navigate("/login");
+    }
+
+    if (success) {
+      return navigate(`/order/${order._id}`);
+    }
+  }, [navigate, success]);
+
+  const placeOrderHandler = () => {
+    dispatch(
+      orderCreateAction({
+        orderItems: cartItems,
+        shippingAddress: shippingAddress,
+        paymentMethod: paymentMethod,
+        itemsPrice: itemsPrice,
+        shippingPrice: shippingPrice,
+        taxPrice: taxPrice,
+        totalPrice: totalPrice,
+      })
+    );
+  };
   return (
     <div>
       <div className="flex justify-center items-center flex-col mt-24 lg:w-full mx-auto">
@@ -42,8 +78,8 @@ const PlaceOrder = () => {
               <div className="py-6">
                 <p className="pl-4">
                   <b>Address: </b>
-                  {shippingAddress.address}, {shippingAddress.city}{" "}
-                  {shippingAddress.postalCode}, {shippingAddress.country}
+                  {shippingAddress?.address}, {shippingAddress?.city}{" "}
+                  {shippingAddress?.postalCode}, {shippingAddress?.country}
                 </p>
               </div>
             </div>
@@ -87,7 +123,23 @@ const PlaceOrder = () => {
               <h1 className="text-3xl uppercase font-weight my-4">
                 Order Summary
               </h1>
-
+              {error && (
+                <div role="alert" className="alert alert-error">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 shrink-0 stroke-current"
+                    fill="none"
+                    viewBox="0 0 24 24">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  <span>{error}</span>
+                </div>
+              )}
               <div className="grid grid-cols-2 py-4 border-b-2">
                 <b>Items: </b>
                 <p>${itemsPrice}</p>
@@ -104,7 +156,9 @@ const PlaceOrder = () => {
                 <b>Total: </b>
                 <p>${totalPrice}</p>
               </div>
-              <button className="btn w-full ">Place order</button>
+              <button onClick={placeOrderHandler} className="btn w-full ">
+                Place order
+              </button>
             </div>
           </div>
         </div>
