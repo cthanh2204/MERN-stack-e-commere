@@ -2,6 +2,7 @@ import axios from "axios";
 import {
   USER_DETAIL_FAIL,
   USER_DETAIL_REQUEST,
+  USER_DETAIL_RESET,
   USER_DETAIL_SUCCESS,
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
@@ -15,6 +16,7 @@ import {
   USER_UPDATE_PROFILE_SUCCESS,
 } from "../constants/userConstant";
 import { CART_CLEAR_ALL } from "../constants/cartConstant";
+import { ORDER_LIST_MY_RESET } from "../constants/orderConstant";
 
 export const userLoginAction = (email, password) => async (dispatch) => {
   dispatch({
@@ -132,5 +134,7 @@ export const userUpdateProfileAction = (user) => async (dispatch, getState) => {
 export const userLogOutAction = () => (dispatch) => {
   localStorage.clear();
   dispatch({ type: USER_LOGOUT });
+  dispatch({ type: USER_DETAIL_RESET });
+  dispatch({ type: ORDER_LIST_MY_RESET });
   dispatch({ type: CART_CLEAR_ALL });
 };

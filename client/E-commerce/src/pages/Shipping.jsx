@@ -20,6 +20,7 @@ const Shipping = () => {
   useEffect(() => {
     if (!userInfo) {
       navigate("/login");
+      return;
     }
   }, [navigate]);
 

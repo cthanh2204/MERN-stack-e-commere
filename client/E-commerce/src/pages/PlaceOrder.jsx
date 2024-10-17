@@ -39,11 +39,13 @@ const PlaceOrder = () => {
 
   useEffect(() => {
     if (!userInfo) {
-      return navigate("/login");
+      navigate("/login");
+      return;
     }
 
     if (success) {
-      return navigate(`/order/${order._id}`);
+      navigate(`/order/${order._id}`);
+      return;
     }
   }, [navigate, success]);
 

@@ -16,9 +16,9 @@ import Order from "./pages/Order";
 function App() {
   return (
     <Router>
-      <div className="relative m-0 min-h-screen	pb-16">
+      <div className="relative m-0  min-h-screen	pb-16">
         <Header />
-        <main className="container mx-auto">
+        <main className="container mx-auto w-full">
           <Routes>
             <Route path="/" element={<Home />} exact />
             <Route path="/login" element={<SignIn />} />

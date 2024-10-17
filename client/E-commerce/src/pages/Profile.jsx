@@ -1,17 +1,20 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
+  myOrdersSelector,
   userDetailSelector,
   userLoginSelector,
   userUpdateProfileSelector,
 } from "../redux/selector/selectors";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
   userDetailAction,
   userUpdateProfileAction,
 } from "../redux/actions/userAction";
+import { myOrdersAction } from "../redux/actions/orderAction";
+import Loading from "../components/Loading";
 const Profile = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState("");
@@ -27,18 +30,22 @@ const Profile = () => {
   const { user } = userDetail;
   const userUpdateProfile = useSelector(userUpdateProfileSelector);
   const { error, success } = userUpdateProfile;
+  const myOrders = useSelector(myOrdersSelector);
+  const { orders, loading: loadingOrders } = myOrders;
   useEffect(() => {
     if (!userInfo) {
-      return navigate("/login");
-    }
-
-    if (!user || !user.name) {
-      dispatch(userDetailAction());
+      navigate("/login");
+      return;
     } else {
-      setName(user.name);
-      setEmail(user.email);
+      if (!user?.name) {
+        dispatch(userDetailAction());
+        dispatch(myOrdersAction());
+      } else {
+        setName(user.name);
+        setEmail(user.email);
+      }
     }
-  }, [dispatch, navigate, userInfo, user]);
+  }, [dispatch, navigate, userInfo, user, orders]);
   const submitHandle = (e) => {
     e.preventDefault();
 
@@ -61,10 +68,11 @@ const Profile = () => {
       dispatch(userDetailAction());
     }
   };
+  console.log(orders);
   return (
     <>
-      <div className="grid lg:grid-cols-3 gap-2">
-        <div>
+      <div className="grid md:grid-cols-3 gap-4">
+        <div className="w-full">
           <h1 className="text-3xl uppercase font-semibold	">User profile</h1>
           {error && (
             <div role="alert" className="alert alert-error">
@@ -101,8 +109,8 @@ const Profile = () => {
               <span>Update profile successfully</span>
             </div>
           )}
-          <form className="w-full" onSubmit={submitHandle}>
-            <label className="input input-bordered flex items-center gap-2 my-4 w-full">
+          <form className="" onSubmit={submitHandle}>
+            <label className="input input-bordered flex items-center gap-2 my-4 ">
               <i className="fa-solid fa-user"></i>
               <input
                 type="text"
@@ -112,7 +120,7 @@ const Profile = () => {
                 onChange={(e) => setName(e.target.value)}
               />
             </label>
-            <label className="input input-bordered flex items-center gap-2 my-4 w-full">
+            <label className="input input-bordered flex items-center gap-2 my-4 ">
               <i className="fa-solid fa-envelope"></i>
               <input
                 type="email"
@@ -122,7 +130,7 @@ const Profile = () => {
                 onChange={(e) => setEmail(e.target.value)}
               />
             </label>
-            <label className="input input-bordered flex items-center gap-2 my-4 w-full">
+            <label className="input input-bordered flex items-center gap-2 my-4 ">
               <i className="fa-solid fa-lock"></i>
               <input
                 type={showPassword ? "text" : "password"}
@@ -136,7 +144,7 @@ const Profile = () => {
                 onClick={() => setShowPassword(!showPassword)}></i>
             </label>
 
-            <label className="input input-bordered flex items-center gap-2 my-4 w-full">
+            <label className="input input-bordered flex items-center gap-2 my-4 ">
               <i className="fa-solid fa-lock"></i>
               <input
                 type={showPassword2 ? "text" : "password"}
@@ -153,8 +161,47 @@ const Profile = () => {
             <button className="btn w-full">Update</button>
           </form>
         </div>
-        <div className="grid lg:col-span-2">
+        <div className=" lg:col-span-2">
           <h1 className="text-3xl uppercase font-semibold	">My Order</h1>
+          {loadingOrders ? (
+            <Loading />
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="table">
+                {/* head */}
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>DATE</th>
+                    <th>PAID</th>
+                    <th>DELIVERED</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {orders.map((order) => (
+                    <tr key={order._id}>
+                      <th>{order._id}</th>
+                      <td>{order.createdAt.substring(0, 10)}</td>
+                      <td>{order.totalPrice}</td>
+                      <td>
+                        {order.isPaid ? (
+                          order.paidAt.substring(0, 10)
+                        ) : (
+                          <i className="fa-solid fa-x text-red-500	 font-bold"></i>
+                        )}
+                      </td>
+                      <th>
+                        <Link to={`/order/${order._id}`}>
+                          <button className="btn">Detail</button>
+                        </Link>
+                      </th>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </div>
       <ToastContainer />

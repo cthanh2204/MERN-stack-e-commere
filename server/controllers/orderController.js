@@ -74,4 +74,13 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 });
-export { addOrderItems, getOrderById, updateOrderToPaid };
+
+const getMyOrders = asyncHandler(async (req, res) => {
+  try {
+    const myOrders = await Order.find({ user: req.user._id });
+    res.status(200).json(myOrders);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+export { addOrderItems, getOrderById, updateOrderToPaid, getMyOrders };

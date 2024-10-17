@@ -8,3 +8,4 @@ export const userUpdateProfileSelector = (state) => state.userUpdateProfile;
 export const orderCreateSelector = (state) => state.orderCreate;
 export const orderDetailSelector = (state) => state.orderDetail;
 export const orderPaySelector = (state) => state.orderPay;
+export const myOrdersSelector = (state) => state.myOrders;

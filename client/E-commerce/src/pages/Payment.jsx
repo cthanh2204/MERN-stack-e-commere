@@ -15,10 +15,12 @@ const Payment = () => {
   const [paymentMethod, setPaymentMethod] = useState("Paypal");
   useEffect(() => {
     if (!userInfo) {
-      return navigate("/login");
+      navigate("/login");
+      return;
     }
     if (!shippingAddress) {
-      return navigate("/shipping");
+      navigate("/shipping");
+      return;
     }
   }, [navigate]);
   const submitHandle = (e) => {

@@ -33,7 +33,8 @@ const Order = () => {
 
   useEffect(() => {
     if (!userInfo) {
-      return navigate("/login");
+      navigate("/login");
+      return;
     }
 
     //Add paypal javascript sdk
