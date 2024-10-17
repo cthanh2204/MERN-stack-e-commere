@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
-  cartSelector,
   orderDetailSelector,
   orderPaySelector,
   userLoginSelector,
@@ -21,8 +20,6 @@ const Order = () => {
   const [sdkReady, setSdkReady] = useState(false);
   const userLogin = useSelector(userLoginSelector);
   const { userInfo } = userLogin;
-  const cart = useSelector(cartSelector);
-  const { shippingAddress, paymentMethod, cartItems } = cart;
   const orderDetail = useSelector(orderDetailSelector);
   const { order, loading, error } = orderDetail;
   const orderPay = useSelector(orderPaySelector);
@@ -62,7 +59,6 @@ const Order = () => {
   }, [dispatch, id, successPay]);
 
   const successPaymentHandler = (paymentResult) => {
-    console.log(paymentResult);
     dispatch(
       orderPayAction(id, {
         id: paymentResult.id,
@@ -117,8 +113,9 @@ const Order = () => {
                 </p>
                 <p className="pl-4 my-4">
                   <b>Address: </b>
-                  {shippingAddress.address}, {shippingAddress.city}{" "}
-                  {shippingAddress.postalCode}, {shippingAddress.country}
+                  {order.shippingAddress.address}, {order.shippingAddress.city}{" "}
+                  {order.shippingAddress.postalCode},{" "}
+                  {order.shippingAddress.country}
                 </p>
                 {order.isDelivered ? (
                   <div role="alert" className="alert alert-success">
@@ -162,7 +159,7 @@ const Order = () => {
               <div className="py-6">
                 <p className="pl-4 my-4">
                   <b>Method: </b>
-                  {paymentMethod}
+                  {order.paymentMethod}
                 </p>
                 {order?.isPaid ? (
                   <div role="alert" className="alert alert-success">
@@ -204,7 +201,7 @@ const Order = () => {
                 Order Items
               </h1>
               <div>
-                {cartItems.map((item) => (
+                {order.orderItems.map((item) => (
                   <div
                     key={item.product}
                     className="grid grid-cols-3 gap-4 border-b-2 mx-2 my-2">

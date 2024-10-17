@@ -68,7 +68,6 @@ const Profile = () => {
       dispatch(userDetailAction());
     }
   };
-  console.log(orders);
   return (
     <>
       <div className="grid md:grid-cols-3 gap-4">
