@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import Loading from "../components/Loading";
 import axios from "axios";
 import { PayPalButton } from "react-paypal-button-v2";
+import Alert from "../components/Alert";
 
 const Order = () => {
   // eslint-disable-next-line no-unused-vars
@@ -73,21 +74,7 @@ const Order = () => {
   return loading ? (
     <Loading />
   ) : error ? (
-    <div role="alert" className="alert alert-error">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-6 w-6 shrink-0 stroke-current"
-        fill="none"
-        viewBox="0 0 24 24">
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="2"
-          d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-        />
-      </svg>
-      <span>{error}</span>
-    </div>
+    <Alert content={error} status="error" />
   ) : (
     <div>
       <div className="flex justify-center items-center flex-col mt-24 lg:w-full mx-auto">
@@ -118,37 +105,9 @@ const Order = () => {
                   {order.shippingAddress.country}
                 </p>
                 {order.isDelivered ? (
-                  <div role="alert" className="alert alert-success">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6 shrink-0 stroke-current"
-                      fill="none"
-                      viewBox="0 0 24 24">
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                    <span>Your purchase has been confirmed!</span>
-                  </div>
+                  <Alert content="Delivered success" status="success" />
                 ) : (
-                  <div role="alert" className="alert alert-error">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6 shrink-0 stroke-current"
-                      fill="none"
-                      viewBox="0 0 24 24">
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                    <span>Not Delivered</span>
-                  </div>
+                  <Alert content="Not Delivered" status="error" />
                 )}
               </div>
             </div>
@@ -162,37 +121,9 @@ const Order = () => {
                   {order.paymentMethod}
                 </p>
                 {order?.isPaid ? (
-                  <div role="alert" className="alert alert-success">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6 shrink-0 stroke-current"
-                      fill="none"
-                      viewBox="0 0 24 24">
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                    <span>Paid on {order.paidAt}</span>
-                  </div>
+                  <Alert content={`Paid on ${order.paidAt}`} status="success" />
                 ) : (
-                  <div role="alert" className="alert alert-error">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6 shrink-0 stroke-current"
-                      fill="none"
-                      viewBox="0 0 24 24">
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                    <span>Not Paid</span>
-                  </div>
+                  <Alert content="Not paid" status="error" />
                 )}
               </div>
             </div>
@@ -227,23 +158,7 @@ const Order = () => {
               <h1 className="text-3xl uppercase font-weight my-4">
                 Order Summary
               </h1>
-              {error && (
-                <div role="alert" className="alert alert-error">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 shrink-0 stroke-current"
-                    fill="none"
-                    viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                  <span>{error}</span>
-                </div>
-              )}
+              {error && <Alert content={error} status="error" />}
               <div className="grid grid-cols-2 py-4 border-b-2">
                 <b>Items: </b>
                 <p>${order.itemsPrice}</p>

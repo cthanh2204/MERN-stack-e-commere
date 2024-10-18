@@ -13,13 +13,13 @@ const Home = () => {
   }, [dispatch]);
   return (
     <div className="">
-      <h1 className="pl-4 text-3xl uppercase font-weight">Latest Product</h1>
+      <h1 className="text-3xl uppercase font-weight">Latest Product</h1>
       {loading ? (
         <Loading />
       ) : error ? (
         <h3>{error}</h3>
       ) : (
-        <div className="grid grid-cols-1 gap-4 my-4 px-4 xl:grid-cols-4 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 my-4  xl:grid-cols-4 md:grid-cols-3">
           {products.map((product) => (
             <CardProduct product={product} key={product._id} />
           ))}

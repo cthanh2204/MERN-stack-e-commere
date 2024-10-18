@@ -85,16 +85,26 @@ const Header = () => {
                       className="toggle theme-controller"
                     />
                   </li>
+                  {userInfo.isAdmin ? (
+                    <li className="mb-2">
+                      <button
+                        className="btn"
+                        onClick={() => navigate("/admin")}>
+                        <i className="fa-solid fa-bars-progress"></i> Admin
+                        management
+                      </button>
+                    </li>
+                  ) : null}
                   <li className="mb-2">
                     <button
                       className="btn"
                       onClick={() => navigate("/profile")}>
-                      Profile
+                      <i className="fa-solid fa-circle-user"></i> Profile
                     </button>
                   </li>
                   <li className="mb-2">
                     <button className="btn" onClick={logOutHandle}>
-                      Log out
+                      <i className="fa-solid fa-right-to-bracket"></i> Log out
                     </button>
                   </li>
                 </ul>

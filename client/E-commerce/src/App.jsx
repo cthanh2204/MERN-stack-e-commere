@@ -13,6 +13,8 @@ import Shipping from "./pages/Shipping";
 import Payment from "./pages/Payment";
 import PlaceOrder from "./pages/PlaceOrder";
 import Order from "./pages/Order";
+import UserList from "./pages/UserList";
+import Admin from "./pages/Admin";
 function App() {
   return (
     <Router>
@@ -30,6 +32,8 @@ function App() {
             <Route path="/payment" element={<Payment />} />
             <Route path="/place-order" element={<PlaceOrder />} />
             <Route path="/order/:id" element={<Order />} />
+            <Route path="/admin" element={<Admin />} />
+            <Route path="/admin/user-list" element={<UserList />} />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </main>

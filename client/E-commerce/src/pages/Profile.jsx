@@ -15,6 +15,7 @@ import {
 } from "../redux/actions/userAction";
 import { myOrdersAction } from "../redux/actions/orderAction";
 import Loading from "../components/Loading";
+import Alert from "../components/Alert";
 const Profile = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState("");
@@ -72,41 +73,11 @@ const Profile = () => {
     <>
       <div className="grid md:grid-cols-3 gap-4">
         <div className="w-full">
-          <h1 className="text-3xl uppercase font-semibold	">User profile</h1>
-          {error && (
-            <div role="alert" className="alert alert-error">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 shrink-0 stroke-current"
-                fill="none"
-                viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              <span>Error! Task failed successfully.</span>
-            </div>
-          )}
+          <h1 className="text-3xl uppercase font-weight">User profile</h1>
+          {error && <Alert content={error} status="error" />}
 
           {success && (
-            <div role="alert" className="alert alert-success">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 shrink-0 stroke-current"
-                fill="none"
-                viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              <span>Update profile successfully</span>
-            </div>
+            <Alert content="Update Profile successfully" status="success" />
           )}
           <form className="" onSubmit={submitHandle}>
             <label className="input input-bordered flex items-center gap-2 my-4 ">
@@ -161,9 +132,11 @@ const Profile = () => {
           </form>
         </div>
         <div className=" lg:col-span-2">
-          <h1 className="text-3xl uppercase font-semibold	">My Order</h1>
+          <h1 className="text-3xl uppercase font-weight">My Order</h1>
           {loadingOrders ? (
             <Loading />
+          ) : orders.length === 0 ? (
+            <Alert content="You don't have any orders" status="info" />
           ) : (
             <div className="overflow-x-auto">
               <table className="table">
@@ -187,7 +160,7 @@ const Profile = () => {
                         {order.isPaid ? (
                           order.paidAt.substring(0, 10)
                         ) : (
-                          <i className="fa-solid fa-x text-red-500	 font-bold"></i>
+                          <i className="fa-solid fa-xmark text-red-500 font-bold"></i>
                         )}
                       </td>
                       <th>

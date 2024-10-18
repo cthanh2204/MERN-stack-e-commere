@@ -9,3 +9,4 @@ export const orderCreateSelector = (state) => state.orderCreate;
 export const orderDetailSelector = (state) => state.orderDetail;
 export const orderPaySelector = (state) => state.orderPay;
 export const myOrdersSelector = (state) => state.myOrders;
+export const userListSelector = (state) => state.userList;
