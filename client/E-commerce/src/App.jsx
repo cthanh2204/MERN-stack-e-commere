@@ -15,6 +15,8 @@ import PlaceOrder from "./pages/PlaceOrder";
 import Order from "./pages/Order";
 import UserList from "./pages/UserList";
 import Admin from "./pages/Admin";
+import UserEdit from "./pages/UserEdit";
+import AdminProducts from "./pages/AdminProducts";
 function App() {
   return (
     <Router>
@@ -32,8 +34,12 @@ function App() {
             <Route path="/payment" element={<Payment />} />
             <Route path="/place-order" element={<PlaceOrder />} />
             <Route path="/order/:id" element={<Order />} />
+
+            {/* Admin route */}
             <Route path="/admin" element={<Admin />} />
-            <Route path="/admin/user-list" element={<UserList />} />
+            <Route path="/admin/users-list" element={<UserList />} />
+            <Route path="/admin/user/:id" element={<UserEdit />} />
+            <Route path="/admin/products-list" element={<AdminProducts />} />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </main>

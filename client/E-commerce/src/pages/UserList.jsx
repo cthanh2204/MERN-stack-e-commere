@@ -6,8 +6,8 @@ import {
 import { useEffect } from "react";
 import { userDeleteAction, userListAction } from "../redux/actions/userAction";
 import Loading from "../components/Loading";
-import Alert from "../components/Alert";
 import { Link, useNavigate } from "react-router-dom";
+import Toast from "../components/Toast";
 
 const UserList = () => {
   const userList = useSelector(userListSelector);
@@ -16,7 +16,7 @@ const UserList = () => {
   const userLogin = useSelector(userLoginSelector);
   const { userInfo } = userLogin;
   const userDelete = useSelector((state) => state.userDelete);
-  const { success } = userDelete;
+  const { success: successDelete } = userDelete;
   const navigate = useNavigate();
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
@@ -25,7 +25,7 @@ const UserList = () => {
       navigate("/login");
       return;
     }
-  }, [dispatch, navigate, success]);
+  }, [dispatch, navigate, successDelete, userInfo]);
 
   const deleteUserHandle = (id) => {
     dispatch(userDeleteAction(id));
@@ -36,10 +36,10 @@ const UserList = () => {
       {loading ? (
         <Loading />
       ) : error ? (
-        <Alert content={error} status="error" />
+        <Toast content={error} status="error" />
       ) : (
-        <div>
-          <div className="overflow-x-auto">
+        <div className="w-full">
+          <div className="overflow-x-auto w-full">
             <table className="table">
               {/* head */}
               <thead>
@@ -68,7 +68,7 @@ const UserList = () => {
                       )}
                     </td>
                     <td>
-                      <Link to={`/user/${user._id}`}>
+                      <Link to={`/admin/user/${user._id}`}>
                         <button className="btn btn-secondary mr-2">
                           <i className="fa-solid fa-pen-to-square"></i>
                         </button>

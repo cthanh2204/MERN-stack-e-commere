@@ -1,7 +1,12 @@
 import {
   USER_DELETE_FAIL,
   USER_DELETE_REQUEST,
+  USER_DELETE_RESET,
   USER_DELETE_SUCCESS,
+  USER_DETAIL_BY_ID_FAIL,
+  USER_DETAIL_BY_ID_REQUEST,
+  USER_DETAIL_BY_ID_RESET,
+  USER_DETAIL_BY_ID_SUCCESS,
   USER_DETAIL_FAIL,
   USER_DETAIL_REQUEST,
   USER_DETAIL_RESET,
@@ -17,9 +22,13 @@ import {
   USER_REGISTER_FAIL,
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
+  USER_UPDATE_FAIL,
   USER_UPDATE_PROFILE_FAIL,
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_SUCCESS,
+  USER_UPDATE_REQUEST,
+  USER_UPDATE_RESET,
+  USER_UPDATE_SUCCESS,
 } from "../constants/userConstant";
 
 export const userLoginReducer = (state = {}, action) => {
@@ -65,7 +74,7 @@ export const userDetailReducer = (state = { user: {} }, action) => {
   }
 };
 
-export const userUpdateProfileReducer = (state = {}, action) => {
+export const userUpdateProfileReducer = (state = { user: {} }, action) => {
   switch (action.type) {
     case USER_UPDATE_PROFILE_REQUEST:
       return { loading: true };
@@ -103,6 +112,38 @@ export const userDeleteReducer = (state = {}, action) => {
       return { loading: false, success: true, message: action.payload };
     case USER_DELETE_FAIL:
       return { loading: false, error: action.payload };
+    case USER_DELETE_RESET:
+      return { loading: false, success: false };
+    default:
+      return state;
+  }
+};
+
+export const userUpdateReducer = (state = { user: {} }, action) => {
+  switch (action.type) {
+    case USER_UPDATE_REQUEST:
+      return { loading: true, success: false };
+    case USER_UPDATE_SUCCESS:
+      return { loading: false, user: action.payload, success: true };
+    case USER_UPDATE_FAIL:
+      return { loading: false, error: action.payload };
+    case USER_UPDATE_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const userDetailByIdReducer = (state = { user: {} }, action) => {
+  switch (action.type) {
+    case USER_DETAIL_BY_ID_REQUEST:
+      return { loading: true };
+    case USER_DETAIL_BY_ID_SUCCESS:
+      return { loading: false, user: action.payload };
+    case USER_DETAIL_BY_ID_FAIL:
+      return { loading: false, error: action.payload };
+    case USER_DETAIL_BY_ID_RESET:
+      return { user: {} };
     default:
       return state;
   }

@@ -7,8 +7,6 @@ import {
 } from "../redux/selector/selectors";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Bounce, toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import {
   userDetailAction,
   userUpdateProfileAction,
@@ -16,6 +14,7 @@ import {
 import { myOrdersAction } from "../redux/actions/orderAction";
 import Loading from "../components/Loading";
 import Alert from "../components/Alert";
+import Toast from "../components/Toast";
 const Profile = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState("");
@@ -23,6 +22,8 @@ const Profile = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword2, setShowPassword2] = useState("");
+  const [showToast, setShowToast] = useState(false);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userLogin = useSelector(userLoginSelector);
@@ -39,7 +40,7 @@ const Profile = () => {
       return;
     } else {
       if (!user?.name) {
-        dispatch(userDetailAction());
+        dispatch(userDetailAction(`profile`));
         dispatch(myOrdersAction());
       } else {
         setName(user.name);
@@ -49,24 +50,13 @@ const Profile = () => {
   }, [dispatch, navigate, userInfo, user, orders]);
   const submitHandle = (e) => {
     e.preventDefault();
-
     if (password !== confirmPassword) {
-      return toast.error("Password do not match", {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-        transition: Bounce,
-      });
+      setShowToast(true);
     } else {
       dispatch(
         userUpdateProfileAction({ id: user._id, name, email, password })
       );
-      dispatch(userDetailAction());
+      dispatch(userDetailAction("profile"));
     }
   };
   return (
@@ -74,10 +64,13 @@ const Profile = () => {
       <div className="grid md:grid-cols-3 gap-4">
         <div className="w-full">
           <h1 className="text-3xl uppercase font-weight">User profile</h1>
-          {error && <Alert content={error} status="error" />}
+          {showToast && (
+            <Toast content="Password does not match !!!" status="error" />
+          )}
+          {error && <Toast content={error} status="error" />}
 
           {success && (
-            <Alert content="Update Profile successfully" status="success" />
+            <Toast content="Update Profile successfully" status="success" />
           )}
           <form className="" onSubmit={submitHandle}>
             <label className="input input-bordered flex items-center gap-2 my-4 ">
@@ -136,9 +129,9 @@ const Profile = () => {
           {loadingOrders ? (
             <Loading />
           ) : orders.length === 0 ? (
-            <Alert content="You don't have any orders" status="info" />
+            <Alert content="You don't have any orders" />
           ) : (
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto w-full">
               <table className="table">
                 {/* head */}
                 <thead>
@@ -176,7 +169,6 @@ const Profile = () => {
           )}
         </div>
       </div>
-      <ToastContainer />
     </>
   );
 };

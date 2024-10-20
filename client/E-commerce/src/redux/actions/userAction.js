@@ -3,6 +3,9 @@ import {
   USER_DELETE_FAIL,
   USER_DELETE_REQUEST,
   USER_DELETE_SUCCESS,
+  USER_DETAIL_BY_ID_FAIL,
+  USER_DETAIL_BY_ID_REQUEST,
+  USER_DETAIL_BY_ID_SUCCESS,
   USER_DETAIL_FAIL,
   USER_DETAIL_REQUEST,
   USER_DETAIL_RESET,
@@ -18,9 +21,12 @@ import {
   USER_REGISTER_FAIL,
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
+  USER_UPDATE_FAIL,
   USER_UPDATE_PROFILE_FAIL,
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_SUCCESS,
+  USER_UPDATE_REQUEST,
+  USER_UPDATE_SUCCESS,
 } from "../constants/userConstant";
 import { CART_CLEAR_ALL } from "../constants/cartConstant";
 import { ORDER_LIST_MY_RESET } from "../constants/orderConstant";
@@ -86,7 +92,7 @@ export const userRegisterAction =
     }
   };
 
-export const userDetailAction = () => async (dispatch, getState) => {
+export const userDetailAction = (id) => async (dispatch, getState) => {
   dispatch({ type: USER_DETAIL_REQUEST });
   try {
     const {
@@ -99,7 +105,7 @@ export const userDetailAction = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`api/user/profile`, config);
+    const { data } = await axios.get(`/api/user/${id}`, config);
     dispatch({ type: USER_DETAIL_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
@@ -125,7 +131,7 @@ export const userUpdateProfileAction = (user) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put(`api/user/profile`, user, config);
+    const { data } = await axios.put(`/api/user/profile`, user, config);
     dispatch({ type: USER_UPDATE_PROFILE_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
@@ -198,4 +204,56 @@ export const userLogOutAction = () => (dispatch) => {
   dispatch({ type: ORDER_LIST_MY_RESET });
   dispatch({ type: USER_LIST_RESET });
   dispatch({ type: CART_CLEAR_ALL });
+};
+
+export const userUpdateAction = (id, user) => async (dispatch, getState) => {
+  dispatch({ type: USER_UPDATE_REQUEST });
+  try {
+    const {
+      userLogin: { userInfo },
+    } = getState();
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.put(`/api/user/update/${id}`, user, config);
+    dispatch({ type: USER_UPDATE_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: USER_UPDATE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const userDetailByIdAction = (id) => async (dispatch, getState) => {
+  dispatch({ type: USER_DETAIL_BY_ID_REQUEST });
+  try {
+    const {
+      userLogin: { userInfo },
+    } = getState();
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(`/api/user/${id}`, config);
+    dispatch({ type: USER_DETAIL_BY_ID_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: USER_DETAIL_BY_ID_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
 };

@@ -27,7 +27,12 @@ const userSchema = new mongoose.Schema(
 );
 
 userSchema.methods.matchPassword = async function (enteredPassword) {
-  return await bcrypt.compare(enteredPassword, this.password);
+  const isMatch = await bcrypt.compare(enteredPassword, this.password);
+  console.log("Entered Password:", enteredPassword);
+  console.log("Stored Password:", this.password);
+  console.log("Password Match:", isMatch);
+  return isMatch;
+  // return enteredPassword === this.password;
 };
 
 userSchema.pre("save", async function (next) {
@@ -37,6 +42,7 @@ userSchema.pre("save", async function (next) {
 
   const salt = bcrypt.genSaltSync(10);
   this.password = bcrypt.hashSync(this.password, salt);
+  next();
 });
 const User = mongoose.model("User", userSchema);
 export default User;

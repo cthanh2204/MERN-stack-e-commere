@@ -10,3 +10,5 @@ export const orderDetailSelector = (state) => state.orderDetail;
 export const orderPaySelector = (state) => state.orderPay;
 export const myOrdersSelector = (state) => state.myOrders;
 export const userListSelector = (state) => state.userList;
+export const userUpdateSelector = (state) => state.userUpdate;
+export const userDetailByIdSelector = (state) => state.userDetailById;

@@ -57,7 +57,7 @@ const Order = () => {
         setSdkReady(true);
       }
     }
-  }, [dispatch, id, successPay]);
+  }, [dispatch, id, successPay, navigate, userInfo]);
 
   const successPaymentHandler = (paymentResult) => {
     dispatch(
@@ -105,9 +105,12 @@ const Order = () => {
                   {order.shippingAddress.country}
                 </p>
                 {order.isDelivered ? (
-                  <Alert content="Delivered success" status="success" />
+                  <Alert
+                    content="Delivered success"
+                    status="alert alert-success"
+                  />
                 ) : (
-                  <Alert content="Not Delivered" status="error" />
+                  <Alert content="Not Delivered" status="alert alert-error" />
                 )}
               </div>
             </div>
@@ -121,9 +124,12 @@ const Order = () => {
                   {order.paymentMethod}
                 </p>
                 {order?.isPaid ? (
-                  <Alert content={`Paid on ${order.paidAt}`} status="success" />
+                  <Alert
+                    content={`Paid on ${order.paidAt}`}
+                    status="alert alert-success"
+                  />
                 ) : (
-                  <Alert content="Not paid" status="error" />
+                  <Alert content="Not paid" status="alert alert-error" />
                 )}
               </div>
             </div>

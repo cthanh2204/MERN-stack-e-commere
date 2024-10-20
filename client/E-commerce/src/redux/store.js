@@ -8,11 +8,13 @@ import {
 import { cartReducer } from "./reducers/cartReducer";
 import {
   userDeleteReducer,
+  userDetailByIdReducer,
   userDetailReducer,
   userListReducer,
   userLoginReducer,
   userRegisterReducer,
   userUpdateProfileReducer,
+  userUpdateReducer,
 } from "./reducers/userReducer";
 import {
   myOrdersReducer,
@@ -47,6 +49,8 @@ const reducer = combineReducers({
   orderPay: orderPayReducer,
   myOrders: myOrdersReducer,
   userDelete: userDeleteReducer,
+  userUpdate: userUpdateReducer,
+  userDetailById: userDetailByIdReducer,
 });
 const initialState = {
   cart: {

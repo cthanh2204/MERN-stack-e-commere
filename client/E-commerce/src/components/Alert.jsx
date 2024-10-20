@@ -1,7 +1,7 @@
 // eslint-disable-next-line react/prop-types
 const Alert = ({ content, status }) => {
   return (
-    <div role="alert" className={`alert alert-${status}`}>
+    <div role="alert" className={status}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         className="h-6 w-6 shrink-0 stroke-current"
