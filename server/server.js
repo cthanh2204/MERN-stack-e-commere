@@ -4,6 +4,9 @@ import connectDB from "./config/db.js";
 import productRoute from "./routes/productRoute.js";
 import userRoute from "./routes/userRoute.js";
 import orderRoute from "./routes/orderRoute.js";
+import uploadRoute from "./routes/uploadRoute.js";
+
+import path from "path";
 import { errorHandler, notFound } from "./middlewares/errorhandler.js";
 
 dotenv.config();
@@ -17,9 +20,14 @@ app.get("/", (req, res) => {
 app.use("/api/products", productRoute);
 app.use("/api/user", userRoute);
 app.use("/api/orders", orderRoute);
+app.use("/api/uploads", uploadRoute);
+
 app.get("/api/config/paypal", (req, res) => {
   res.json(process.env.PAYPAL_CLIENT_ID);
 });
+
+const __dirname = path.resolve();
+app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 app.use(notFound);
 app.use(errorHandler);
 const PORT = process.env.PORT || 5000;

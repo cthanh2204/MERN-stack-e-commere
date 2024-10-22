@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 
 const CardProduct = ({ product }) => {
   return (
-    <div className="flex items-center justify-center mb-2 w-full md:justify-between">
+    <div className="flex items-center justify-center mb-2 w-full md:justify-between ">
       <div className="card bg-base-100 shadow-xl size-full">
-        <figure>
-          <img src={product.image} alt="Shoes" />
+        <figure className="size-full h-80">
+          <img src={product.image} alt="Shoes" className="size-full	" />
         </figure>
         <div className="card-body">
           <h2 className="card-title truncate ...">{product.name}</h2>

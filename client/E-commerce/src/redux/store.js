@@ -4,6 +4,9 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import {
   productListReducer,
   productDetailReducer,
+  productDeleteReducer,
+  productCreateReducer,
+  productUpdateReducer,
 } from "./reducers/productReducer";
 import { cartReducer } from "./reducers/cartReducer";
 import {
@@ -51,6 +54,9 @@ const reducer = combineReducers({
   userDelete: userDeleteReducer,
   userUpdate: userUpdateReducer,
   userDetailById: userDetailByIdReducer,
+  productDelete: productDeleteReducer,
+  productCreate: productCreateReducer,
+  productUpdate: productUpdateReducer,
 });
 const initialState = {
   cart: {

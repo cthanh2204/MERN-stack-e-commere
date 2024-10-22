@@ -28,7 +28,9 @@ const UserList = () => {
   }, [dispatch, navigate, successDelete, userInfo]);
 
   const deleteUserHandle = (id) => {
-    dispatch(userDeleteAction(id));
+    if (window.confirm("Are you sure")) {
+      dispatch(userDeleteAction(id));
+    }
   };
   return (
     <div>

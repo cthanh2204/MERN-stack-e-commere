@@ -16,7 +16,8 @@ import Order from "./pages/Order";
 import UserList from "./pages/UserList";
 import Admin from "./pages/Admin";
 import UserEdit from "./pages/UserEdit";
-import AdminProducts from "./pages/AdminProducts";
+import ProductEdit from "./pages/ProductEdit";
+import ProductList from "./pages/ProductList";
 function App() {
   return (
     <Router>
@@ -39,7 +40,8 @@ function App() {
             <Route path="/admin" element={<Admin />} />
             <Route path="/admin/users-list" element={<UserList />} />
             <Route path="/admin/user/:id" element={<UserEdit />} />
-            <Route path="/admin/products-list" element={<AdminProducts />} />
+            <Route path="/admin/products-list" element={<ProductList />} />
+            <Route path="/admin/product/:id" element={<ProductEdit />} />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </main>

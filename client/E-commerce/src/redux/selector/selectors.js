@@ -12,3 +12,6 @@ export const myOrdersSelector = (state) => state.myOrders;
 export const userListSelector = (state) => state.userList;
 export const userUpdateSelector = (state) => state.userUpdate;
 export const userDetailByIdSelector = (state) => state.userDetailById;
+export const productDeleteSelector = (state) => state.productDelete;
+export const productCreateSelector = (state) => state.productCreate;
+export const productUpdateSelector = (state) => state.productUpdate;
