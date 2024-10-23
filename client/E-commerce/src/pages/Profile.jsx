@@ -158,7 +158,10 @@ const Profile = () => {
                       </td>
                       <th>
                         <Link to={`/order/${order._id}`}>
-                          <button className="btn">Detail</button>
+                          <button className="btn">
+                            <i className="fa-solid fa-circle-info"></i>
+                            Detail
+                          </button>
                         </Link>
                       </th>
                     </tr>

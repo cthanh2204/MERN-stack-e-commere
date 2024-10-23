@@ -92,10 +92,28 @@ const getAllOrders = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 });
+
+const updateOrderToDelivered = asyncHandler(async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+
+    if (order) {
+      order.isDelivered = true;
+      order.deliveredAt = Date.now();
+    }
+
+    const updateOrder = await order.save();
+    res.status(200).json(updateOrder);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
 export {
   addOrderItems,
   getOrderById,
   updateOrderToPaid,
   getMyOrders,
   getAllOrders,
+  updateOrderToDelivered,
 };

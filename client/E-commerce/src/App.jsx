@@ -18,6 +18,7 @@ import Admin from "./pages/Admin";
 import UserEdit from "./pages/UserEdit";
 import ProductEdit from "./pages/ProductEdit";
 import ProductList from "./pages/ProductList";
+import OrderList from "./pages/OrderList";
 function App() {
   return (
     <Router>
@@ -42,6 +43,7 @@ function App() {
             <Route path="/admin/user/:id" element={<UserEdit />} />
             <Route path="/admin/products-list" element={<ProductList />} />
             <Route path="/admin/product/:id" element={<ProductEdit />} />
+            <Route path="/admin/orders-list" element={<OrderList />} />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </main>

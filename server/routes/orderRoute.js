@@ -4,6 +4,7 @@ import {
   getAllOrders,
   getMyOrders,
   getOrderById,
+  updateOrderToDelivered,
   updateOrderToPaid,
 } from "../controllers/orderController.js";
 import authToken from "../middlewares/authMiddleware.js";
@@ -16,4 +17,5 @@ router.put("/:id/pay", authToken, updateOrderToPaid);
 
 //Admin route
 router.get("/", authToken, isAdmin, getAllOrders);
+router.put("/:id/delivered", authToken, isAdmin, updateOrderToDelivered);
 export default router;

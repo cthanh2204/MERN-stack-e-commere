@@ -12,17 +12,19 @@ const Shipping = () => {
   const { userInfo } = userLogin;
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [address, setAddress] = useState(shippingAddress?.address);
-  const [city, setCity] = useState(shippingAddress?.city);
-  const [postalCode, setPostalCode] = useState(shippingAddress?.postalCode);
-  const [country, setCountry] = useState(shippingAddress?.country);
+  const [address, setAddress] = useState(shippingAddress.address || "");
+  const [city, setCity] = useState(shippingAddress.city || "");
+  const [postalCode, setPostalCode] = useState(
+    shippingAddress.postalCode || ""
+  );
+  const [country, setCountry] = useState(shippingAddress.country || "");
 
   useEffect(() => {
     if (!userInfo) {
       navigate("/login");
       return;
     }
-  }, [navigate]);
+  }, [navigate, userInfo]);
 
   const submitHandle = (e) => {
     e.preventDefault();

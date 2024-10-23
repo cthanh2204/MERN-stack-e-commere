@@ -46,7 +46,7 @@ const Admin = () => {
         </div>
         <div>
           <div className="card bg-base-100 w-96 shadow-xl hover:bg-gray-300 ease-in duration-300">
-            <Link>
+            <Link to="/admin/orders-list">
               <div className="card-body">
                 <h2 className="card-title">
                   <i className="fa-solid fa-bag-shopping"></i> ORDERS LIST

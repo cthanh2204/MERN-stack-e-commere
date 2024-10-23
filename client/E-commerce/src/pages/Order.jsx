@@ -1,10 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
+  orderDeliveredSelector,
   orderDetailSelector,
   orderPaySelector,
   userLoginSelector,
 } from "../redux/selector/selectors";
 import {
+  orderDeliveredAction,
   orderDetailAction,
   orderPayAction,
 } from "../redux/actions/orderAction";
@@ -15,6 +17,10 @@ import Loading from "../components/Loading";
 import axios from "axios";
 import { PayPalButton } from "react-paypal-button-v2";
 import Alert from "../components/Alert";
+import {
+  ORDER_DELIVERED_RESET,
+  ORDER_PAY_RESET,
+} from "../redux/constants/orderConstant";
 
 const Order = () => {
   // eslint-disable-next-line no-unused-vars
@@ -25,6 +31,9 @@ const Order = () => {
   const { order, loading, error } = orderDetail;
   const orderPay = useSelector(orderPaySelector);
   const { success: successPay } = orderPay;
+
+  const orderDelivered = useSelector(orderDeliveredSelector);
+  const { success: successDelivered } = orderDelivered;
   const dispatch = useDispatch();
   const { id } = useParams();
   const navigate = useNavigate();
@@ -49,15 +58,25 @@ const Order = () => {
       document.body.appendChild(script);
     };
 
-    dispatch(orderDetailAction(id));
-    if (!order?.isPaid) {
-      if (!window.paypal) {
-        addPayPalScript();
-      } else {
-        setSdkReady(true);
-      }
+    // dispatch(orderDetailAction(id));
+    // if (!order?.isPaid) {
+    //   if (!window.paypal) {
+    //     addPayPalScript();
+    //   } else {
+    //     setSdkReady(true);
+    //   }
+    // }
+
+    if (!order || successPay || successDelivered) {
+      dispatch({ type: ORDER_PAY_RESET });
+      dispatch({ type: ORDER_DELIVERED_RESET });
+      dispatch(orderDetailAction(id));
+    } else if (!order.isPaid) {
+      addPayPalScript();
+    } else {
+      setSdkReady(true);
     }
-  }, [dispatch, id, successPay, navigate, userInfo]);
+  }, [dispatch, id, successPay, navigate, userInfo, order, successDelivered]);
 
   const successPaymentHandler = (paymentResult) => {
     dispatch(
@@ -69,6 +88,10 @@ const Order = () => {
       })
     );
     dispatch(orderDetailAction(id));
+  };
+
+  const deliveredHandler = (id) => {
+    dispatch(orderDeliveredAction(id));
   };
 
   return loading ? (
@@ -187,6 +210,13 @@ const Order = () => {
                   onSuccess={successPaymentHandler}
                 />
               ) : null}
+              {userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                <button
+                  className="btn btn-neutral w-full"
+                  onClick={() => deliveredHandler(order._id)}>
+                  Mark as Delivered
+                </button>
+              )}
             </div>
           </div>
         </div>

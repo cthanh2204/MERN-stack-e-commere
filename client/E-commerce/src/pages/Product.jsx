@@ -14,6 +14,7 @@ const Product = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const [qty, setQty] = useState(0);
   const productDetail = useSelector(productDetailSelector);
   const { loading, product, error } = productDetail;
@@ -54,7 +55,7 @@ const Product = () => {
       ) : (
         <div className="grid md:grid-cols-2 gap-2 my-3 ">
           <div className="size-full">
-            <img src={product.image} />
+            <img src={product.image} className="size-full" />
           </div>
 
           <div className=" md:w-full">
