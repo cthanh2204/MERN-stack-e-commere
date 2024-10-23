@@ -1,6 +1,12 @@
 import mongoose from "mongoose";
 const reviewSchema = new mongoose.Schema(
   {
+    user: {
+      type: mongoose.Schema.ObjectId,
+      required: true,
+      ref: "User",
+    },
+
     name: {
       type: String,
       required: true,
@@ -14,7 +20,7 @@ const reviewSchema = new mongoose.Schema(
       required: true,
     },
   },
-  { timestamp: true }
+  { timestamps: true }
 );
 const productSchema = new mongoose.Schema(
   {

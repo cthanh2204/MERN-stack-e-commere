@@ -33,7 +33,7 @@ const UserEdit = () => {
   useEffect(() => {
     if (success) {
       dispatch({ type: USER_UPDATE_RESET });
-      navigate("/admin/user-list");
+      navigate("/admin/users-list");
     } else {
       if (userInfo && userInfo.isAdmin) {
         if (!user?.name || user._id !== id) {
