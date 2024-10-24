@@ -36,12 +36,20 @@ function App() {
             <Route path="/payment" element={<Payment />} />
             <Route path="/place-order" element={<PlaceOrder />} />
             <Route path="/order/:id" element={<Order />} />
+            {/* Search Product route */}
+            <Route path="/search/:keyword" element={<Home />} exact />
+            <Route path="/page/:pageNumber" element={<Home />} exact />
 
             {/* Admin route */}
             <Route path="/admin" element={<Admin />} />
             <Route path="/admin/users-list" element={<UserList />} />
             <Route path="/admin/user/:id" element={<UserEdit />} />
             <Route path="/admin/products-list" element={<ProductList />} />
+            <Route
+              path="/admin/products-list/:pageNumber"
+              element={<ProductList />}
+            />
+
             <Route path="/admin/product/:id" element={<ProductEdit />} />
             <Route path="/admin/orders-list" element={<OrderList />} />
             <Route path="*" element={<ErrorPage />} />

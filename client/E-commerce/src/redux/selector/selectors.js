@@ -18,3 +18,4 @@ export const productUpdateSelector = (state) => state.productUpdate;
 export const orderListSelector = (state) => state.orderList;
 export const orderDeliveredSelector = (state) => state.orderDelivered;
 export const productReviewCreateSelector = (state) => state.productReviewCreate;
+export const productCarouselSelector = (state) => state.productCarousel;

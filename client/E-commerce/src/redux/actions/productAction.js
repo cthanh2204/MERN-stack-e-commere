@@ -19,12 +19,17 @@ import {
   PRODUCT_CREATE_REVIEW_REQUEST,
   PRODUCT_CREATE_REVIEW_SUCCESS,
   PRODUCT_CREATE_REVIEW_FAIL,
+  PRODUCT_CAROUSEL_REQUEST,
+  PRODUCT_CAROUSEL_SUCCESS,
+  PRODUCT_CAROUSEL_FAIL,
 } from "../constants/productConstant";
 
-export const listProductsAction = () => async (dispatch) => {
+export const listProductsAction = (keyword, pageNumber) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST });
-    const { data } = await axios.get("/api/products");
+    const { data } = await axios.get(`/api/products`, {
+      params: { keyword, pageNumber },
+    });
     dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
@@ -167,3 +172,19 @@ export const productReviewCreateAction =
       });
     }
   };
+
+export const productCarouselAction = () => async (dispatch) => {
+  try {
+    dispatch({ type: PRODUCT_CAROUSEL_REQUEST });
+    const { data } = await axios.get(`/api/products/top`);
+    dispatch({ type: PRODUCT_CAROUSEL_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: PRODUCT_CAROUSEL_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};

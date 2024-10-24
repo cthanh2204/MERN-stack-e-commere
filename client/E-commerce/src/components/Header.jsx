@@ -6,6 +6,7 @@ import {
   userLoginSelector,
 } from "../redux/selector/selectors";
 import { userLogOutAction } from "../redux/actions/userAction";
+import { useState } from "react";
 
 const Header = () => {
   const cart = useSelector(cartSelector);
@@ -16,8 +17,18 @@ const Header = () => {
   const { cartItems } = cart;
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [search, setSearch] = useState("");
   const logOutHandle = () => {
     dispatch(userLogOutAction());
+  };
+
+  const searchHandle = (e) => {
+    e.preventDefault();
+    if (search.trim()) {
+      navigate(`/search/${search}`);
+    } else {
+      navigate("/");
+    }
   };
   return (
     <>
@@ -30,13 +41,19 @@ const Header = () => {
 
         {/* Search Input */}
         <div className="flex-1">
-          <div className="form-control">
-            <input
-              type="text"
-              placeholder="Search"
-              className="input input-bordered w-24 md:w-auto"
-            />
-          </div>
+          <form onSubmit={searchHandle}>
+            <div className="form-control flex justify-between">
+              <input
+                type="text"
+                placeholder="Search"
+                className="input input-bordered w-24 md:w-auto"
+                value={search}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                }}
+              />
+            </div>
+          </form>
         </div>
         {/* Cart and profile modal */}
         <div className="flex-none gap-2 ">

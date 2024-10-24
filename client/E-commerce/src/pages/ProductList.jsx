@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import {
   deleteProductAction,
   listProductsAction,
@@ -15,10 +15,11 @@ import {
   userLoginSelector,
 } from "../redux/selector/selectors";
 import { PRODUCT_CREATE_RESET } from "../redux/constants/productConstant";
+import Pagination from "../components/Pagination";
 
 const ProductList = () => {
   const productList = useSelector(productListSelector);
-  const { loading, products, error } = productList;
+  const { loading, products, error, page, pages } = productList;
   const productDelete = useSelector(productDeleteSelector);
   const {
     loading: productDeleteLoading,
@@ -31,6 +32,8 @@ const ProductList = () => {
   const productCreate = useSelector(productCreateSelector);
   const { success: successCreate, product: productCreated } = productCreate;
   const navigate = useNavigate();
+  const { pageNumber } = useParams() || 1;
+  const [search, setSearch] = useState("");
   useEffect(() => {
     dispatch({ type: PRODUCT_CREATE_RESET });
     if (!userInfo || !userInfo.isAdmin) {
@@ -40,7 +43,7 @@ const ProductList = () => {
     if (successCreate) {
       navigate(`/admin/product/${productCreated._id}`);
     } else {
-      dispatch(listProductsAction());
+      dispatch(listProductsAction(search, pageNumber));
     }
   }, [
     dispatch,
@@ -49,6 +52,8 @@ const ProductList = () => {
     productDeleteSuccess,
     successCreate,
     productCreated,
+    pageNumber,
+    search,
   ]);
 
   const deleteProductHandle = (id) => {
@@ -61,11 +66,19 @@ const ProductList = () => {
     dispatch(productCreateAction());
   };
 
-  console.log(products);
   return (
     <div>
       <div className="flex justify-between">
-        <h1 className="text-3xl uppercase font-weight">PRODUCT LIST</h1>
+        <div>
+          <h1 className="text-3xl uppercase font-weight">PRODUCT LIST</h1>
+          <input
+            type="text"
+            placeholder="Search..."
+            className="input input-bordered w-full max-w-xs"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
         <button className="btn btn-outline" onClick={createProductHandle}>
           <i className="fa-solid fa-circle-plus"></i> CREATE PRODUCT
         </button>
@@ -119,6 +132,7 @@ const ProductList = () => {
               </tbody>
             </table>
           </div>
+          <Pagination page={page} pages={pages} isAdmin={true} />
         </div>
       )}
     </div>

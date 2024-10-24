@@ -2,11 +2,26 @@ import asyncHandler from "express-async-handler";
 import Product from "../models/productModel.js";
 
 const getAllProduct = asyncHandler(async (req, res) => {
+  const pageSize = 8;
+  const page = Number(req.query.pageNumber) || 1;
+  const keyword = req.query.keyword
+    ? { name: { $regex: req.query.keyword, $options: "i" } }
+    : {};
+
   try {
-    const products = await Product.find();
-    res.status(200).json(products);
+    const count = await Product.countDocuments({ ...keyword });
+    const products = await Product.find({ ...keyword })
+      .limit(pageSize)
+      .skip(pageSize * (page - 1));
+    if (products.length === 0) {
+      throw new Error("Product not found");
+    } else {
+      res
+        .status(200)
+        .json({ products, page, pages: Math.ceil(count / pageSize) });
+    }
   } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
+    res.status(500).json({ message: error.message });
   }
 });
 
@@ -117,6 +132,15 @@ const createNewReview = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 });
+
+const getProductCarousel = asyncHandler(async (req, res) => {
+  try {
+    const product = await Product.find().sort({ rating: -1 }).limit(3);
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 export {
   getAllProduct,
   getProductOne,
@@ -124,4 +148,5 @@ export {
   createProduct,
   updateProduct,
   createNewReview,
+  getProductCarousel,
 };

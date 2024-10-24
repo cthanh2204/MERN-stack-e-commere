@@ -4,6 +4,7 @@ import {
   createProduct,
   deleteProductOne,
   getAllProduct,
+  getProductCarousel,
   getProductOne,
   updateProduct,
 } from "../controllers/productController.js";
@@ -13,6 +14,7 @@ import isAdmin from "../middlewares/adminMiddleware.js  ";
 const router = express.Router();
 
 router.get("/", getAllProduct);
+router.get("/top", getProductCarousel);
 router.get("/:id", getProductOne);
 router.post("/:id/reviews", authToken, createNewReview);
 //Admin route
