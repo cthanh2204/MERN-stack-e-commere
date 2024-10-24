@@ -18,6 +18,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { addToCart } from "../redux/actions/cartAction";
 import Loading from "../components/Loading";
 import { PRODUCT_CREATE_REVIEW_RESET } from "../redux/constants/productConstant";
+import Meta from "../components/Meta";
 
 const Product = () => {
   const { id } = useParams();
@@ -97,6 +98,7 @@ const Product = () => {
 
   return (
     <>
+      <Meta title={product?.name} />
       <div>
         <Link to="/" className="btn btn-ghost">
           Go back

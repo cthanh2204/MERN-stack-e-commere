@@ -8,6 +8,8 @@ import { useParams } from "react-router-dom";
 import Alert from "../components/Alert";
 import Pagination from "../components/Pagination";
 import Carousel from "../components/Carousel";
+import Meta from "../components/Meta";
+
 const Home = () => {
   const dispatch = useDispatch();
   const { keyword } = useParams();
@@ -20,7 +22,8 @@ const Home = () => {
   }, [dispatch, keyword, pageNumber]);
   return (
     <div className="">
-      <Carousel />
+      <Meta />
+      {!keyword && <Carousel />}
       <h1 className="text-3xl uppercase font-weight">Latest Product</h1>
       {loading ? (
         <Loading />
