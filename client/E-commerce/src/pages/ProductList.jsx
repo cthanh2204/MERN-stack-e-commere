@@ -43,7 +43,7 @@ const ProductList = () => {
     if (successCreate) {
       navigate(`/admin/product/${productCreated._id}`);
     } else {
-      dispatch(listProductsAction(search, pageNumber));
+      dispatch(listProductsAction("", pageNumber));
     }
   }, [
     dispatch,
@@ -53,7 +53,6 @@ const ProductList = () => {
     successCreate,
     productCreated,
     pageNumber,
-    search,
   ]);
 
   const deleteProductHandle = (id) => {
@@ -66,18 +65,25 @@ const ProductList = () => {
     dispatch(productCreateAction());
   };
 
+  const searchHandle = (e) => {
+    e.preventDefault();
+    dispatch(listProductsAction(search, pageNumber));
+  };
+
   return (
     <div>
       <div className="flex justify-between">
         <div>
           <h1 className="text-3xl uppercase font-weight">PRODUCT LIST</h1>
-          <input
-            type="text"
-            placeholder="Search..."
-            className="input input-bordered w-full max-w-xs"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
+          <form onSubmit={searchHandle}>
+            <input
+              type="text"
+              placeholder="Search..."
+              className="input input-bordered w-full max-w-xs"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </form>
         </div>
         <button className="btn btn-outline" onClick={createProductHandle}>
           <i className="fa-solid fa-circle-plus"></i> CREATE PRODUCT
@@ -132,7 +138,12 @@ const ProductList = () => {
               </tbody>
             </table>
           </div>
-          <Pagination page={page} pages={pages} isAdmin={true} />
+          <Pagination
+            page={page}
+            pages={pages}
+            isAdmin={true}
+            link={`/admin/products-list`}
+          />
         </div>
       )}
     </div>

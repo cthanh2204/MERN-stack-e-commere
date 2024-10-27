@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import Order from "../models/orderModel.js";
+import User from "../models/userModel.js";
 
 const addOrderItems = asyncHandler(async (req, res) => {
   try {
@@ -86,10 +87,34 @@ const getMyOrders = asyncHandler(async (req, res) => {
 
 const getAllOrders = asyncHandler(async (req, res) => {
   try {
-    const orders = await Order.find().populate("user", "id name");
-    res.status(200).json(orders);
+    const pageSize = 8;
+    const page = Number(req.query.pageNumber) || 1;
+
+    let user = null;
+    if (req.query.keyword) {
+      user = await User.findOne({
+        email: { $regex: req.query.keyword, $options: "i" },
+      });
+    }
+
+    const keyword = user ? { user: user._id } : {};
+
+    const count = await Order.countDocuments({ ...keyword });
+
+    const orders = await Order.find({ ...keyword })
+      .limit(pageSize)
+      .skip(pageSize * (page - 1))
+      .populate("user", "name email");
+
+    if (orders.length === 0) {
+      throw new Error("Order not found");
+    } else {
+      res
+        .status(200)
+        .json({ orders, page, pages: Math.ceil(count / pageSize) });
+    }
   } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
+    res.status(500).json({ message: error.message });
   }
 });
 

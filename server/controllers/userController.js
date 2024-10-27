@@ -6,9 +6,7 @@ const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
-  console.log(user);
-  console.log(password);
-  console.log(user.password);
+
   if (user && (await user.matchPassword(password))) {
     res.status(200).json({
       _id: user._id,
@@ -86,10 +84,22 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 
 const getAllUSers = asyncHandler(async (req, res) => {
   try {
-    const users = await User.find();
-    res.json(users);
+    const pageSize = 8;
+    const keyword = req.query.keyword
+      ? { name: { $regex: req.query.keyword, $options: "i" } }
+      : {};
+    const page = Number(req.query.pageNumber) || 1;
+    const count = await User.countDocuments({ ...keyword });
+    const users = await User.find({ ...keyword })
+      .limit(pageSize)
+      .skip(pageSize * (page - 1));
+    if (users.length === 0) {
+      throw new Error("User not found");
+    } else {
+      res.status(200).json({ users, page, pages: Math.ceil(count / pageSize) });
+    }
   } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
+    res.status(500).json({ message: error.message });
   }
 });
 
@@ -126,19 +136,13 @@ const updateUser = asyncHandler(async (req, res) => {
   try {
     const user = await User.findById(req.params.id).select("-password");
     if (user) {
-      console.log("Password before update:", user.password); // Log trước khi cập nhật
-
       user.name = req.body.name || user.name;
       user.email = req.body.email || user.email;
       user.isAdmin = req.body.isAdmin;
-      if (req.body.password) {
-        user.password = req.body.password;
-      }
+
       const updatedUser = await user.save();
 
-      console.log("Password after update:", updatedUser.password); // Log sau khi cập nhật
-
-      res.status(200).json(updateUser);
+      res.status(200).json(updatedUser);
     } else {
       res.status(404);
       throw new Error("User not found");

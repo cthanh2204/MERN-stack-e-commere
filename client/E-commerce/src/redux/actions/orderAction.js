@@ -132,32 +132,37 @@ export const myOrdersAction = () => async (dispatch, getState) => {
   }
 };
 
-export const orderListAction = () => async (dispatch, getState) => {
-  try {
-    dispatch({ type: ORDER_LIST_REQUEST });
-    const {
-      userLogin: { userInfo },
-    } = getState();
+export const orderListAction =
+  (keyword, pageNumber) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: ORDER_LIST_REQUEST });
+      const {
+        userLogin: { userInfo },
+      } = getState();
 
-    const config = {
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+        params: {
+          keyword,
+          pageNumber,
+        },
+      };
 
-    const { data } = await axios.get("/api/orders/", config);
-    dispatch({ type: ORDER_LIST_SUCCESS, payload: data });
-  } catch (error) {
-    dispatch({
-      type: ORDER_LIST_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
-};
+      const { data } = await axios.get("/api/orders/", config);
+      dispatch({ type: ORDER_LIST_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({
+        type: ORDER_LIST_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
 
 export const orderDeliveredAction = (id) => async (dispatch, getState) => {
   try {

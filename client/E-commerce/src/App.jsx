@@ -49,6 +49,14 @@ function App() {
               path="/admin/products-list/:pageNumber"
               element={<ProductList />}
             />
+            <Route
+              path="/admin/users-list/:pageNumber"
+              element={<UserList />}
+            />
+            <Route
+              path="/admin/orders-list/:pageNumber"
+              element={<OrderList />}
+            />
 
             <Route path="/admin/product/:id" element={<ProductEdit />} />
             <Route path="/admin/orders-list" element={<OrderList />} />

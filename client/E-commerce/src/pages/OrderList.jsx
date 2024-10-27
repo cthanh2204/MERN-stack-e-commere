@@ -3,32 +3,46 @@ import {
   orderListSelector,
   userLoginSelector,
 } from "../redux/selector/selectors";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Loading from "../components/Loading";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Toast from "../components/Toast";
 import { orderListAction } from "../redux/actions/orderAction";
+import Pagination from "../components/Pagination";
 
 const OrderList = () => {
   const orderList = useSelector(orderListSelector);
-  const { orders, loading, error } = orderList;
+  const { orders, loading, error, page, pages } = orderList;
   const dispatch = useDispatch();
   const userLogin = useSelector(userLoginSelector);
   const { userInfo } = userLogin;
-
+  const { pageNumber } = useParams();
   const navigate = useNavigate();
+  const [search, setSearch] = useState();
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
-      dispatch(orderListAction());
+      dispatch(orderListAction("", pageNumber));
     } else {
       navigate("/login");
       return;
     }
-  }, [dispatch, navigate, userInfo]);
-
+  }, [dispatch, navigate, userInfo, pageNumber]);
+  const searchHandle = (e) => {
+    e.preventDefault();
+    dispatch(orderListAction(search, pageNumber));
+  };
   return (
     <div>
       <h1 className="text-3xl uppercase font-weight">ORDER LIST</h1>
+      <form onSubmit={searchHandle}>
+        <input
+          type="text"
+          placeholder="Search..."
+          className="input input-bordered w-full max-w-xs"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </form>
       {loading ? (
         <Loading />
       ) : error ? (
@@ -41,7 +55,7 @@ const OrderList = () => {
               <thead>
                 <tr>
                   <th>ID</th>
-                  <th>USER</th>
+                  <th>EMAIL</th>
                   <th>DATE</th>
                   <th>TOTAL</th>
                   <th>PAID</th>
@@ -54,7 +68,7 @@ const OrderList = () => {
                 {orders.map((order) => (
                   <tr key={order._id}>
                     <th>{order._id}</th>
-                    <td>{order.user && order.user.name}</td>
+                    <td>{order.user && order.user.email}</td>
                     <td>{order.createdAt.substring(0, 10)}</td>
                     <td>${order.totalPrice}</td>
                     <td>
@@ -83,6 +97,12 @@ const OrderList = () => {
               </tbody>
             </table>
           </div>
+          <Pagination
+            page={page}
+            pages={pages}
+            isAdmin={true}
+            link={`/admin/orders-list`}
+          />
         </div>
       )}
     </div>

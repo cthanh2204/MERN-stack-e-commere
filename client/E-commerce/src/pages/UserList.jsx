@@ -3,38 +3,55 @@ import {
   userListSelector,
   userLoginSelector,
 } from "../redux/selector/selectors";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { userDeleteAction, userListAction } from "../redux/actions/userAction";
 import Loading from "../components/Loading";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Toast from "../components/Toast";
+import Pagination from "../components/Pagination";
 
 const UserList = () => {
   const userList = useSelector(userListSelector);
-  const { users, loading, error } = userList;
+  const { users, loading, error, page, pages } = userList;
   const dispatch = useDispatch();
   const userLogin = useSelector(userLoginSelector);
   const { userInfo } = userLogin;
   const userDelete = useSelector((state) => state.userDelete);
   const { success: successDelete } = userDelete;
   const navigate = useNavigate();
+  const { pageNumber } = useParams() || 1;
+  const [search, setSearch] = useState();
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
-      dispatch(userListAction());
+      dispatch(userListAction("", pageNumber));
     } else {
       navigate("/login");
       return;
     }
-  }, [dispatch, navigate, successDelete, userInfo]);
+  }, [dispatch, navigate, successDelete, userInfo, pageNumber]);
 
   const deleteUserHandle = (id) => {
     if (window.confirm("Are you sure")) {
       dispatch(userDeleteAction(id));
     }
   };
+
+  const searchHandle = (e) => {
+    e.preventDefault();
+    dispatch(userListAction(search, pageNumber));
+  };
   return (
     <div>
       <h1 className="text-3xl uppercase font-weight">USER LIST</h1>
+      <form onSubmit={searchHandle}>
+        <input
+          type="text"
+          placeholder="Search..."
+          className="input input-bordered w-full max-w-xs"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </form>
       {loading ? (
         <Loading />
       ) : error ? (
@@ -86,6 +103,12 @@ const UserList = () => {
               </tbody>
             </table>
           </div>
+          <Pagination
+            page={page}
+            pages={pages}
+            isAdmin={true}
+            link={`/admin/users-list`}
+          />
         </div>
       )}
     </div>
