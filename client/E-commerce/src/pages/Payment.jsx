@@ -22,7 +22,7 @@ const Payment = () => {
       navigate("/shipping");
       return;
     }
-  }, [navigate]);
+  }, [navigate, userInfo, shippingAddress]);
   const submitHandle = (e) => {
     e.preventDefault();
     dispatch(savePaymentMethod(paymentMethod));
