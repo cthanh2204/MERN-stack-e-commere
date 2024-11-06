@@ -1,24 +1,21 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { cartSelector, userLoginSelector } from "../redux/selector/selectors";
+import { userLoginSelector } from "../redux/selector/selectors";
 import { saveShippingAddress } from "../redux/actions/cartAction";
 import { useNavigate } from "react-router-dom";
 import CheckoutStep from "../components/CheckoutStep";
 
 const Shipping = () => {
-  const cart = useSelector(cartSelector);
-  const { shippingAddress } = cart;
   const userLogin = useSelector(userLoginSelector);
   const { userInfo } = userLogin;
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [address, setAddress] = useState(shippingAddress.address || "");
-  const [city, setCity] = useState(shippingAddress.city || "");
-  const [postalCode, setPostalCode] = useState(
-    shippingAddress.postalCode || ""
-  );
-  const [country, setCountry] = useState(shippingAddress.country || "");
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [postalCode, setPostalCode] = useState("");
+  const [country, setCountry] = useState("");
 
+  console.log("");
   useEffect(() => {
     if (!userInfo) {
       navigate("/login");
@@ -79,6 +76,7 @@ const Shipping = () => {
               type="text"
               className="grow w-full"
               placeholder="PostalCode"
+              maxLength="7"
               value={postalCode}
               onChange={(e) => setPostalCode(e.target.value)}
             />

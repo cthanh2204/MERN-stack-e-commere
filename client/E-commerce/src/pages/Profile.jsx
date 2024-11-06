@@ -41,13 +41,16 @@ const Profile = () => {
     } else {
       if (!user?.name) {
         dispatch(userDetailAction(`profile`));
-        dispatch(myOrdersAction());
       } else {
         setName(user.name);
         setEmail(user.email);
       }
     }
-  }, [dispatch, navigate, userInfo, user, orders]);
+  }, [dispatch, navigate, userInfo, user]);
+
+  useEffect(() => {
+    dispatch(myOrdersAction());
+  }, [dispatch]);
   const submitHandle = (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {

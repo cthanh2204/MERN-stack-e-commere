@@ -76,8 +76,11 @@ const Order = () => {
     } else {
       setSdkReady(true);
     }
-  }, [dispatch, id, successPay, navigate, userInfo, order, successDelivered]);
+  }, [dispatch, successPay, navigate, userInfo, order, successDelivered, id]);
 
+  useEffect(() => {
+    dispatch(orderDetailAction(id));
+  }, [id, dispatch]);
   const successPaymentHandler = (paymentResult) => {
     dispatch(
       orderPayAction(id, {

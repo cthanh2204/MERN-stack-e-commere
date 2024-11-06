@@ -5,8 +5,6 @@ const Pagination = ({ pages, page, isAdmin = false, link }) => {
   const paginationSize = 5;
   const startPage = Math.floor(page / 5) * paginationSize + 1;
   const endPage = Math.min(startPage + paginationSize - 1, pages); // endPage = 10
-  console.log({ startPage });
-  console.log({ endPage });
   return (
     pages > 1 && (
       <div className="join w-full justify-center align-center">

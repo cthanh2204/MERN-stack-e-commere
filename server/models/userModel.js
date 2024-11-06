@@ -28,9 +28,6 @@ const userSchema = new mongoose.Schema(
 
 userSchema.methods.matchPassword = async function (enteredPassword) {
   const isMatch = await bcrypt.compare(enteredPassword, this.password);
-  console.log("Entered Password:", enteredPassword);
-  console.log("Stored Password:", this.password);
-  console.log("Password Match:", isMatch);
   return isMatch;
   // return enteredPassword === this.password;
 };
