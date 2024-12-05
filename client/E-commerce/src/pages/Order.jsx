@@ -105,7 +105,7 @@ const Order = () => {
     <div>
       <div className="flex justify-center items-center flex-col mt-24 lg:w-full mx-auto">
         <div>
-          <h1 className="pl-4 text-3xl uppercase font-weight">
+          <h1 className="pl-4 text-2xl uppercase font-weight">
             Order {order._id}
           </h1>
         </div>

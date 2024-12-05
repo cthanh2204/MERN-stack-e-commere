@@ -23,7 +23,7 @@ const Admin = () => {
       <h1 className="text-3xl uppercase font-weight">Admin management</h1>
       <div className="grid md:grid-cols-3 gap-3 my-4">
         <div>
-          <div className="card bg-base-100 w-96 shadow-xl hover:bg-gray-300 ease-in duration-300 ">
+          <div className="card bg-base-100 w-full shadow-xl hover:bg-gray-300 ease-in duration-300 ">
             <Link to="/admin/users-list">
               <div className="card-body">
                 <h2 className="card-title">
@@ -34,7 +34,7 @@ const Admin = () => {
           </div>
         </div>
         <div>
-          <div className="card bg-base-100 w-96 shadow-xl hover:bg-gray-300 ease-in duration-300">
+          <div className="card bg-base-100 w-full shadow-xl hover:bg-gray-300 ease-in duration-300">
             <Link to="/admin/products-list">
               <div className="card-body">
                 <h2 className="card-title">
@@ -45,7 +45,7 @@ const Admin = () => {
           </div>
         </div>
         <div>
-          <div className="card bg-base-100 w-96 shadow-xl hover:bg-gray-300 ease-in duration-300">
+          <div className="card bg-base-100 w-full shadow-xl hover:bg-gray-300 ease-in duration-300">
             <Link to="/admin/orders-list">
               <div className="card-body">
                 <h2 className="card-title">

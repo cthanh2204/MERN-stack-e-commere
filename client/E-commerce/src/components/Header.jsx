@@ -31,8 +31,8 @@ const Header = () => {
     }
   };
   return (
-    <>
-      <div className="navbar bg-base-100 container mx-auto ">
+    <div className="w-full">
+      <div className="navbar bg-base-100 container mx-auto w-full">
         <div className="flex-1">
           <Link className="btn btn-ghost text-xl uppercase" to={"/"}>
             ProShop
@@ -56,7 +56,7 @@ const Header = () => {
           </form>
         </div>
         {/* Cart and profile modal */}
-        <div className="flex-none gap-2 ">
+        <div className="flex-2 gap-2 ">
           {/* Cart */}
           <Link to={"/cart"}>
             <div
@@ -87,7 +87,7 @@ const Header = () => {
           </Link>
 
           {/* Profile modal */}
-          <div className="dropdown dropdown-end">
+          <div className="flex-1 dropdown dropdown-end">
             {userInfo ? (
               <details className="dropdown">
                 <summary className="btn btn-ghost m-1 uppercase">
@@ -136,7 +136,7 @@ const Header = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

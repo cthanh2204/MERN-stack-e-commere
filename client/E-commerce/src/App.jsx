@@ -22,9 +22,9 @@ import OrderList from "./pages/OrderList";
 function App() {
   return (
     <Router>
-      <div className="relative m-0  min-h-screen	pb-16">
+      <div className="relative m-0  min-h-screen	pb-16 w-full">
         <Header />
-        <main className="container mx-auto w-full">
+        <main className="container mx-auto ">
           <Routes>
             <Route path="/" element={<Home />} exact />
             <Route path="/login" element={<SignIn />} />

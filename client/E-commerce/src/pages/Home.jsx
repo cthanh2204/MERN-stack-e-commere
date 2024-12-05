@@ -21,7 +21,7 @@ const Home = () => {
     dispatch(listProductsAction(keyword, pageNumber));
   }, [dispatch, keyword, pageNumber]);
   return (
-    <div className="">
+    <div>
       <Meta />
       {!keyword && <Carousel />}
       <h1 className="text-3xl uppercase font-weight">Latest Product</h1>
@@ -30,7 +30,7 @@ const Home = () => {
       ) : error ? (
         <Alert content={error} status="alert" />
       ) : (
-        <div className="grid grid-cols-1 gap-4 my-4  xl:grid-cols-4 md:grid-cols-3">
+        <div className="grid grid-cols-1 xl:gap-4 my-4  xl:grid-cols-4 md:grid-cols-3">
           {products.map((product) => (
             <CardProduct product={product} key={product._id} />
           ))}

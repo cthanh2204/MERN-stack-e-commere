@@ -64,8 +64,8 @@ const Profile = () => {
   };
   return (
     <>
-      <div className="grid md:grid-cols-3 gap-4">
-        <div className="w-full">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div className="">
           <h1 className="text-3xl uppercase font-weight">User profile</h1>
           {showToast && (
             <Toast content="Password does not match !!!" status="error" />
@@ -80,7 +80,7 @@ const Profile = () => {
               <i className="fa-solid fa-user"></i>
               <input
                 type="text"
-                className="grow"
+                className="grow "
                 placeholder="Username"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -100,7 +100,7 @@ const Profile = () => {
               <i className="fa-solid fa-lock"></i>
               <input
                 type={showPassword ? "text" : "password"}
-                className="grow w-full"
+                className="grow "
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -114,7 +114,7 @@ const Profile = () => {
               <i className="fa-solid fa-lock"></i>
               <input
                 type={showPassword2 ? "text" : "password"}
-                className="grow w-full"
+                className="grow "
                 placeholder="Confirm password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
