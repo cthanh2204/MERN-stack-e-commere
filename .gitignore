@@ -1,0 +1,58 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Logs
+logs/
+*.log
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Dependency directories
+node_modules/
+jspm_packages/
+typings/
+
+# Build directories
+dist/
+build/
+.out/
+
+# Runtime files
+*.cache
+*.tmp
+*.swp
+
+# Optional npm cache directory
+.npm/
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# dotenv environment variables file
+.env
+.env.* 
+
+# MacOS files
+.DS_Store
+
+# Vite related
+.vite/
+.vscode/
+
+# Coverage directory used by Jest
+coverage/
+
+# Next.js
+.next/
+out/
+
+# Express
+logs/
