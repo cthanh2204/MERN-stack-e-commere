@@ -12,8 +12,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "data:import": "node server/seeder.js",
     "data:destroy": "node server/seeder -d",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "build": "npm install && npm install --prefix client/E-commerce && npm run build --prefix client/E-commerce"
   },
   "author": "cthanh2204",
   "license": "ISC",
