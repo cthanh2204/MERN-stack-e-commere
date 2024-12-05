@@ -24,6 +24,14 @@ app.get("/api/config/paypal", (req, res) => {
   res.json(process.env.PAYPAL_CLIENT_ID);
 });
 
+app.use(express.static(path.join(__dirname, "/client/E-commerce/dist")));
+
+app.get("*", (req, res) =>
+  res.sendFile(
+    path.join(__dirname, "client", "E-commerce", "dist", "index.html")
+  )
+);
+
 const __dirname = path.resolve();
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 app.use(notFound);
