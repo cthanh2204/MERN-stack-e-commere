@@ -57,6 +57,13 @@ const Header = () => {
         </div>
         {/* Cart and profile modal */}
         <div className="flex-2 gap-2 ">
+          <div>
+            <input
+              type="checkbox"
+              value="dark"
+              className="toggle theme-controller"
+            />
+          </div>
           {/* Cart */}
           <Link to={"/cart"}>
             <div
@@ -94,14 +101,6 @@ const Header = () => {
                   {user?.name || userInfo.name}
                 </summary>
                 <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-                  <li className="mb-2">
-                    Dark mode
-                    <input
-                      type="checkbox"
-                      value="dark"
-                      className="toggle theme-controller"
-                    />
-                  </li>
                   {userInfo.isAdmin ? (
                     <li className="mb-2">
                       <button
