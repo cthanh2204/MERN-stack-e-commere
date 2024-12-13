@@ -24,14 +24,6 @@ app.get("/api/config/paypal", (req, res) => {
   res.json(process.env.PAYPAL_CLIENT_ID);
 });
 
-const __dirname = path.resolve();
-app.use(express.static(path.join(__dirname, "/client/E-commerce/dist")));
-
-app.get("*", (req, res) =>
-  res.sendFile(
-    path.join(__dirname, "client", "E-commerce", "dist", "index.html")
-  )
-);
 app.use(notFound);
 app.use(errorHandler);
 const PORT = process.env.PORT || 5000;

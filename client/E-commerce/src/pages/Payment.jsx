@@ -42,7 +42,7 @@ const Payment = () => {
             <div className="form-control">
               <label className="label cursor-pointer">
                 <span className="label-text text-base">
-                  <i className="fa-brands fa-paypal"></i> Paypal or Credit card
+                  <i className="fa-brands fa-paypal"></i> Cash On Delivery (COD)
                 </span>
                 <input
                   type="radio"
@@ -57,9 +57,11 @@ const Payment = () => {
             <div className="form-control">
               <label className="label cursor-pointer">
                 <span className="label-text text-base">
-                  <i className="fa-brands fa-cc-stripe"></i> Stripe
+                  <i className="fa-brands fa-cc-stripe" disabled></i> Paypal or
+                  credit card
                 </span>
                 <input
+                  disabled
                   type="radio"
                   name="radio-10"
                   value="Stripe"
