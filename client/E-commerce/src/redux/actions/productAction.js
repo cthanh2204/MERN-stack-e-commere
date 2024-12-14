@@ -27,9 +27,12 @@ import {
 export const listProductsAction = (keyword, pageNumber) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST });
-    const { data } = await axios.get(`/api/products`, {
-      params: { keyword, pageNumber },
-    });
+    const { data } = await axios.get(
+      `https://e-commerce-vued.onrender.com//api/products`,
+      {
+        params: { keyword, pageNumber },
+      }
+    );
     dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
   } catch (error) {
     dispatch({

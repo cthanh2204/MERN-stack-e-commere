@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://e-commerce-vued.onrender.com",
+        // target: "https://e-commerce-vued.onrender.com",
         changeOrigin: true,
         secure: false,
       },
