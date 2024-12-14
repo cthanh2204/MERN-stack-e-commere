@@ -12,7 +12,7 @@ const Payment = () => {
   const { userInfo } = userLogin;
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [paymentMethod, setPaymentMethod] = useState("Paypal");
+  const [paymentMethod, setPaymentMethod] = useState("COD");
   useEffect(() => {
     if (!userInfo) {
       navigate("/login");
@@ -47,7 +47,7 @@ const Payment = () => {
                 <input
                   type="radio"
                   name="radio-10"
-                  value="Paypal"
+                  value="COD"
                   className="radio"
                   defaultChecked
                   onChange={(e) => setPaymentMethod(e.target.value)}
@@ -64,7 +64,7 @@ const Payment = () => {
                   disabled
                   type="radio"
                   name="radio-10"
-                  value="Stripe"
+                  value="Paypal"
                   className="radio"
                   onChange={(e) => setPaymentMethod(e.target.value)}
                 />

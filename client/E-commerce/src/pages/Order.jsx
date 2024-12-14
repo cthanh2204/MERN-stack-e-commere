@@ -14,8 +14,6 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Loading from "../components/Loading";
-import axios from "axios";
-import { PayPalButton } from "react-paypal-button-v2";
 import Alert from "../components/Alert";
 import {
   ORDER_DELIVERED_RESET,
@@ -44,53 +42,18 @@ const Order = () => {
       return;
     }
 
-    //Add paypal javascript sdk
-    const addPayPalScript = async () => {
-      const { data: clientId } = await axios.get("/api/config/paypal");
-      const script = document.createElement("script");
-      script.type = "text-javascript";
-      script.src = `https://sandbox.paypal.com/sdk/js?client-id=${clientId}`;
-      script.async = true;
-      script.onload = () => {
-        setSdkReady(true);
-      };
-
-      document.body.appendChild(script);
-    };
-
-    // dispatch(orderDetailAction(id));
-    // if (!order?.isPaid) {
-    //   if (!window.paypal) {
-    //     addPayPalScript();
-    //   } else {
-    //     setSdkReady(true);
-    //   }
-    // }
-
     if (!order || successPay || successDelivered) {
       dispatch({ type: ORDER_PAY_RESET });
       dispatch({ type: ORDER_DELIVERED_RESET });
       dispatch(orderDetailAction(id));
-    } else if (!order.isPaid) {
-      addPayPalScript();
-    } else {
-      setSdkReady(true);
     }
   }, [dispatch, successPay, navigate, userInfo, order, successDelivered, id]);
 
   useEffect(() => {
     dispatch(orderDetailAction(id));
   }, [id, dispatch]);
-  const successPaymentHandler = (paymentResult) => {
-    dispatch(
-      orderPayAction(id, {
-        id: paymentResult.id,
-        status: paymentResult.status,
-        update_time: paymentResult.update_time,
-        email_address: paymentResult.payer.email_address,
-      })
-    );
-    dispatch(orderDetailAction(id));
+  const successPaymentHandler = () => {
+    dispatch(orderPayAction(id));
   };
 
   const deliveredHandler = (id) => {
@@ -132,7 +95,7 @@ const Order = () => {
                 </p>
                 {order.isDelivered ? (
                   <Alert
-                    content="Delivered success"
+                    content={`Delivery at ${order.deliveredAt}`}
                     status="alert alert-success"
                   />
                 ) : (
@@ -208,12 +171,13 @@ const Order = () => {
                 <p>${order.totalPrice}</p>
               </div>
               {!order?.isPaid ? (
-                <PayPalButton
-                  amount={order.totalPrice}
-                  onSuccess={successPaymentHandler}
-                />
+                <button
+                  className="btn btn-neutral w-full"
+                  onClick={successPaymentHandler}>
+                  Order
+                </button>
               ) : null}
-              {userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+              {userInfo?.isAdmin && order.isPaid && !order.isDelivered && (
                 <button
                   className="btn btn-neutral w-full"
                   onClick={() => deliveredHandler(order._id)}>

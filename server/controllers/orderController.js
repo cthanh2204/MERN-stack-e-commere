@@ -57,15 +57,24 @@ const getOrderById = asyncHandler(async (req, res) => {
 const updateOrderToPaid = asyncHandler(async (req, res) => {
   try {
     const order = await Order.findById(req.params.id);
-
+    const date = Date.now();
+    const updateDate = new Date(date + 3 * 24 * 60 * 60 * 1000);
+    const formattedDate = new Intl.DateTimeFormat("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+    });
     if (order) {
       order.isPaid = true;
-      order.paidAt = Date.now();
+      order.paidAt = formattedDate.format(new Date(date));
       order.paymentResult = {
         id: req.body.id,
-        status: req.body.status,
-        updateTime: req.body.update_time,
-        email_address: req.body.email_address,
+        updateTime: formattedDate.format(updateDate),
+        email_address: req.user.email,
       };
     }
 
@@ -121,10 +130,20 @@ const getAllOrders = asyncHandler(async (req, res) => {
 const updateOrderToDelivered = asyncHandler(async (req, res) => {
   try {
     const order = await Order.findById(req.params.id);
-
+    const date = Date.now();
+    const formattedDate = new Intl.DateTimeFormat("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+      timeZone: "UTC",
+    }).format(new Date(date));
     if (order) {
       order.isDelivered = true;
-      order.deliveredAt = Date.now();
+      order.deliveredAt = formattedDate;
     }
 
     const updateOrder = await order.save();

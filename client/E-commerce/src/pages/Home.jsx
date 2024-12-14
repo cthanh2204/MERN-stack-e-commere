@@ -30,7 +30,7 @@ const Home = () => {
       ) : error ? (
         <Alert content={error} status="alert" />
       ) : (
-        <div className="grid grid-cols-1 xl:gap-4 my-4  xl:grid-cols-4 md:grid-cols-3">
+        <div className="grid grid-cols-1 xl:gap-4 my-4  xl:grid-cols-4 md:grid-cols-3 md:gap-3">
           {products.map((product) => (
             <CardProduct product={product} key={product._id} />
           ))}
