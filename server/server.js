@@ -5,11 +5,12 @@ import productRoute from "./routes/productRoute.js";
 import userRoute from "./routes/userRoute.js";
 import orderRoute from "./routes/orderRoute.js";
 import { errorHandler, notFound } from "./middlewares/errorhandler.js";
-
+import cors from "cors";
 dotenv.config();
 connectDB();
 const app = express();
 app.use(express.json());
+app.use(cors());
 app.get("/", (req, res) => {
   res.send("API is running...");
 });
