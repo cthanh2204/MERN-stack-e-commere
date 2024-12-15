@@ -42,7 +42,7 @@ export const userLoginAction = (email, password) => async (dispatch) => {
       },
     };
     const { data } = await axios.post(
-      "/api/user/login",
+      "https://e-commerce-vued.onrender.com/api/user/login",
       { email, password },
       config
     );
@@ -73,7 +73,7 @@ export const userRegisterAction =
         },
       };
       const { data } = await axios.post(
-        "/api/user/register",
+        "https://e-commerce-vued.onrender.com/api/user/register",
         { name, email, password },
         config
       );
@@ -105,7 +105,10 @@ export const userDetailAction = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/user/${id}`, config);
+    const { data } = await axios.get(
+      `https://e-commerce-vued.onrender.com/api/user/${id}`,
+      config
+    );
     dispatch({ type: USER_DETAIL_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
@@ -131,7 +134,11 @@ export const userUpdateProfileAction = (user) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put(`/api/user/profile`, user, config);
+    const { data } = await axios.put(
+      `https://e-commerce-vued.onrender.com/api/user/profile`,
+      user,
+      config
+    );
     dispatch({ type: USER_UPDATE_PROFILE_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
@@ -162,7 +169,10 @@ export const userListAction =
         },
       };
 
-      const { data } = await axios.get("/api/user/", config);
+      const { data } = await axios.get(
+        "https://e-commerce-vued.onrender.com/api/user/",
+        config
+      );
       dispatch({ type: USER_LIST_SUCCESS, payload: data });
     } catch (error) {
       dispatch({
@@ -189,7 +199,10 @@ export const userDeleteAction = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.delete(`/api/user/delete/${id}`, config);
+    const { data } = await axios.delete(
+      `https://e-commerce-vued.onrender.com/api/user/delete/${id}`,
+      config
+    );
     dispatch({ type: USER_DELETE_SUCCESS, payload: data.message });
   } catch (error) {
     dispatch({
@@ -224,7 +237,11 @@ export const userUpdateAction = (id, user) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put(`/api/user/update/${id}`, user, config);
+    const { data } = await axios.put(
+      `https://e-commerce-vued.onrender.com/api/user/update/${id}`,
+      user,
+      config
+    );
     dispatch({ type: USER_UPDATE_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
@@ -250,7 +267,10 @@ export const userDetailByIdAction = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/user/${id}`, config);
+    const { data } = await axios.get(
+      `https://e-commerce-vued.onrender.com/api/user/${id}`,
+      config
+    );
     dispatch({ type: USER_DETAIL_BY_ID_SUCCESS, payload: data });
   } catch (error) {
     dispatch({

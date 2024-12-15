@@ -34,7 +34,11 @@ export const orderCreateAction = (order) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post(`/api/orders/`, order, config);
+    const { data } = await axios.post(
+      `https://e-commerce-vued.onrender.com/api/orders/`,
+      order,
+      config
+    );
     dispatch({ type: ORDER_CREATE_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
@@ -61,7 +65,10 @@ export const orderDetailAction = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/orders/${id}`, config);
+    const { data } = await axios.get(
+      `https://e-commerce-vued.onrender.com/api/orders/${id}`,
+      config
+    );
     dispatch({ type: ORDER_DETAIL_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
@@ -88,7 +95,7 @@ export const orderPayAction = (id) => async (dispatch, getState) => {
       },
     };
     const { data } = await axios.put(
-      `/api/orders/${id}/pay`,
+      `https://e-commerce-vued.onrender.com/api/orders/${id}/pay`,
       { id: id },
       config
     );
@@ -118,7 +125,10 @@ export const myOrdersAction = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get("/api/orders/my-orders", config);
+    const { data } = await axios.get(
+      "https://e-commerce-vued.onrender.com/api/orders/my-orders",
+      config
+    );
     dispatch({ type: ORDER_LIST_MY_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
@@ -150,7 +160,10 @@ export const orderListAction =
         },
       };
 
-      const { data } = await axios.get("/api/orders/", config);
+      const { data } = await axios.get(
+        "https://e-commerce-vued.onrender.com/api/orders/",
+        config
+      );
       dispatch({ type: ORDER_LIST_SUCCESS, payload: data });
     } catch (error) {
       dispatch({
@@ -175,7 +188,11 @@ export const orderDeliveredAction = (id) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-    await axios.put(`/api/orders/${id}/delivered`, {}, config);
+    await axios.put(
+      `https://e-commerce-vued.onrender.com/api/orders/${id}/delivered`,
+      {},
+      config
+    );
     dispatch({ type: ORDER_DELIVERED_SUCCESS });
   } catch (error) {
     dispatch({

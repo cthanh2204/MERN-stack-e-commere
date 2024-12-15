@@ -28,7 +28,7 @@ export const listProductsAction = (keyword, pageNumber) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST });
     const { data } = await axios.get(
-      `https://e-commerce-vued.onrender.com//api/products`,
+      `https://e-commerce-vued.onrender.com/api/products`,
       {
         params: { keyword, pageNumber },
       }
@@ -48,7 +48,9 @@ export const listProductsAction = (keyword, pageNumber) => async (dispatch) => {
 export const detailProductAction = (id) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_DETAIL_REQUEST });
-    const { data } = await axios.get(`/api/products/${id}`);
+    const { data } = await axios.get(
+      `https://e-commerce-vued.onrender.com/api/products/${id}`
+    );
     dispatch({
       type: PRODUCT_DETAIL_SUCCESS,
       payload: data,
@@ -76,7 +78,10 @@ export const deleteProductAction = (id) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-    await axios.delete(`/api/products/${id}`, config);
+    await axios.delete(
+      `https://e-commerce-vued.onrender.com/api/products/${id}`,
+      config
+    );
     dispatch({
       type: PRODUCT_DELETE_SUCCESS,
     });
@@ -103,7 +108,11 @@ export const productCreateAction = () => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-    const { data } = await axios.post(`/api/products`, {}, config);
+    const { data } = await axios.post(
+      `https://e-commerce-vued.onrender.com/api/products`,
+      {},
+      config
+    );
     dispatch({
       type: PRODUCT_CREATE_SUCCESS,
       payload: data,
@@ -132,7 +141,11 @@ export const productUpdateAction =
           Authorization: `Bearer ${userInfo.token}`,
         },
       };
-      const { data } = await axios.put(`/api/products/${id}`, product, config);
+      const { data } = await axios.put(
+        `https://e-commerce-vued.onrender.com/api/products/${id}`,
+        product,
+        config
+      );
       dispatch({
         type: PRODUCT_UPDATE_SUCCESS,
         payload: data,
@@ -161,7 +174,11 @@ export const productReviewCreateAction =
           Authorization: `Bearer ${userInfo.token}`,
         },
       };
-      await axios.post(`/api/products/${id}/reviews`, review, config);
+      await axios.post(
+        `https://e-commerce-vued.onrender.com/api/products/${id}/reviews`,
+        review,
+        config
+      );
       dispatch({
         type: PRODUCT_CREATE_REVIEW_SUCCESS,
       });
@@ -179,7 +196,9 @@ export const productReviewCreateAction =
 export const productCarouselAction = () => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_CAROUSEL_REQUEST });
-    const { data } = await axios.get(`/api/products/top`);
+    const { data } = await axios.get(
+      `https://e-commerce-vued.onrender.com/api/products/top`
+    );
     dispatch({ type: PRODUCT_CAROUSEL_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
