@@ -20,7 +20,8 @@
     "react-toastify": "^10.0.5",
     "redux": "^4.2.1",
     "redux-devtools-extension": "^2.13.9",
-    "redux-thunk": "^2.4.2"
+    "redux-thunk": "^2.4.2",
+    "rollup": "^4.28.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
