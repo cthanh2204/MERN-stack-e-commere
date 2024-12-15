@@ -23,17 +23,19 @@ const Home = () => {
   return (
     <div>
       <Meta />
-      {!keyword && <Carousel />}
-      <h1 className="text-3xl uppercase font-weight">Latest Product</h1>
       {loading ? (
         <Loading />
       ) : error ? (
         <Alert content={error} status="alert" />
       ) : (
-        <div className="grid grid-cols-1 xl:gap-4 my-4  xl:grid-cols-4 md:grid-cols-3 md:gap-3">
-          {products.map((product) => (
-            <CardProduct product={product} key={product._id} />
-          ))}
+        <div>
+          {!keyword && <Carousel />}
+          <h1 className="text-3xl uppercase font-weight">Latest Product</h1>
+          <div className="grid grid-cols-1 xl:gap-4 my-4  xl:grid-cols-4 md:grid-cols-3 md:gap-3">
+            {products.map((product) => (
+              <CardProduct product={product} key={product._id} />
+            ))}
+          </div>
         </div>
       )}
       <Pagination page={page} pages={pages} />
