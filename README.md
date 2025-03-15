@@ -41,12 +41,3 @@
   npm run dev
 ```
 
-<h2>Demo</h2>
-
-<p>You can view demo on the link below and you can use this admin account to use all the features</p>
-
-```bash
-  user: admin@admin.com
-  password: admin
-```
-https://e-commerce-amber-zeta.vercel.app/
